@@ -1,49 +1,38 @@
-package `in`.iot.lab.ghouse.ui.main
+package `in`.iot.lab.ghouse
 
-import `in`.iot.lab.ghouse.R
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.activity_login.*
 
-
-class LoginFragment : Fragment() {
+class LoginActivity : AppCompatActivity() {
     val RC_SIGN_IN = 12
-
-    val mainViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+    val IS_LOGGED_IN = "is_logedin"
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val isLoggedIn = sharedPreferences.getBoolean(IS_LOGGED_IN, false)
+        if (isLoggedIn){
+           navigateToMainActivity(this)
+        }
+        setContentView(R.layout.activity_login)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
-    }
 
     private val gso by lazy {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
     }
-    private val mGoogleSignInClient by lazy { GoogleSignIn.getClient(requireActivity(), gso) };
+    private val mGoogleSignInClient by lazy { GoogleSignIn.getClient(this, gso) }
+
     override fun onResume() {
         super.onResume()
-        if (mainViewModel.isLoggedIn()) {
-            findNavController().navigate(R.id.mainFragment)
-        }
-
         sign_in_button.setOnClickListener {
             sigin()
         }
@@ -55,11 +44,12 @@ class LoginFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode === RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -80,8 +70,25 @@ class LoginFragment : Fragment() {
     }
 
     private fun updateUI(account: GoogleSignInAccount?) {
-        mainViewModel.setLoginData(account)
-        findNavController().navigate(R.id.mainFragment)
+        val activity = this
+        sharedPreferences.edit {
+            putBoolean(IS_LOGGED_IN, true)
+            navigateToMainActivity(activity)
+        }
     }
+
+    private fun navigateToMainActivity(activity: LoginActivity) {
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private val sharedPreferences by lazy {
+        applicationContext.getSharedPreferences(
+            this::class.qualifiedName,
+            0
+        )
+    }
+
 
 }
