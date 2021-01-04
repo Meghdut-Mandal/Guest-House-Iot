@@ -3,20 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/base_nav"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/newBooking">
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="in.iot.lab.ghouse.ui.main.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="in.iot.lab.ghouse.ui.main.MainFragment"
         android:label="main_fragment"
         tools:layout="@layout/main_fragment" />
+    <fragment
+        android:id="@+id/newBooking"
+        android:name="in.iot.lab.ghouse.ui.main.NewBooking"
+        android:label="fragment_new_booking"
+        tools:layout="@layout/fragment_new_booking" />
 </navigation>
