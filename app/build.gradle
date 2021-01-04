@@ -56,6 +56,12 @@ dependencies {
     implementation "com.mikepenz:fastadapter:5.3.2"
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
 
-    implementation('com.stepstone.stepper:material-stepper:4.3.1')
+    implementation 'com.ernestoyaquello.stepperform:vertical-stepper-form:2.4.0'
+
+    // Material Dialogs
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    implementation 'com.afollestad.material-dialogs:input:3.3.0'
+    implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
+    implementation 'com.afollestad.material-dialogs:lifecycle:3.3.0'
 
 }

@@ -7,4 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.NewBooking">
 
+    <ernestoyaquello.com.verticalstepperform.VerticalStepperFormView
+        android:id="@+id/stepper_form"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:form_circle_background_color="@color/black"
+        app:form_next_button_background_color="@color/black"
+        app:form_next_button_pressed_background_color="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
