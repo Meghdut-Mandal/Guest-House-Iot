@@ -25,9 +25,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         loadBookingTime(currentDate.time)
     }
 
-    fun isLoggedIn(): Boolean {
-        return LocalDB.loginStatus
-    }
 
     fun setLogin(status: Boolean) {
         LocalDB.loginStatus = status

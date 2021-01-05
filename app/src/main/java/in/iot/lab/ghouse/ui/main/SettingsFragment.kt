@@ -18,5 +18,9 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
 
 }

@@ -1,9 +1,10 @@
 package `in`.iot.lab.ghouse
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import kotlinx.android.synthetic.main.main_activity.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -12,6 +13,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bottomNavigationView
+        val navHostFragment = navHostFragment as NavHostFragment
+        NavigationUI.setupWithNavController(
+            bottomNavigationView,
+            navHostFragment.navController
+        )
     }
 
 

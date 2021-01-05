@@ -5,13 +5,18 @@
     <item
         android:id="@+id/bookingsFragment"
         android:icon="@drawable/wallet"
+        app:showAsAction="always"
+
         android:title="DashBoard" />
     <item
         android:id="@+id/fragment_utils"
         android:icon="@drawable/bookings"
+        app:showAsAction="always"
+
         android:title="Bookings" />
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/settings"
+        app:showAsAction="always"
         android:title="Settings" />
 </menu>

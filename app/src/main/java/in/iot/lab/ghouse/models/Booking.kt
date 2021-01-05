@@ -3,6 +3,7 @@ package `in`.iot.lab.ghouse.models
 import `in`.iot.lab.ghouse.MaterialColorPalette
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.Util.formatDayMonth
+import android.annotation.SuppressLint
 import android.view.View
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
@@ -21,6 +22,7 @@ data class Booking(
 )
 
 
+@SuppressLint("ResourceType")
 class BookingItem(val booking: Booking, val room: Room, val customer: Customer) :
     AbstractItem<BookingItem.ViewHolder>() {
     class ViewHolder(view: View) : FastAdapter.ViewHolder<BookingItem>(view) {
@@ -42,7 +44,7 @@ class BookingItem(val booking: Booking, val room: Room, val customer: Customer) 
     override val layoutRes: Int
         get() = R.layout.room_item
     override val type: Int
-        get() = R.id.booking_item
+        get() = 34
 
     override fun getViewHolder(v: View) = ViewHolder(v)
 }
