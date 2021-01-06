@@ -31,4 +31,8 @@ object Util {
         return cal.time
     }
 
+    fun Long.toDate(): Date {
+        return Date(this)
+    }
+
 }

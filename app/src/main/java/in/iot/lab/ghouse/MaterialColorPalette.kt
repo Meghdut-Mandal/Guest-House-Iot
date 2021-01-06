@@ -4,6 +4,7 @@ import android.graphics.Color
 import java.util.*
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
+import kotlin.random.Random.Default.nextLong
 
 class MaterialColorPalette(primary: Int) {
     companion object {
@@ -28,7 +29,9 @@ class MaterialColorPalette(primary: Int) {
         const val BLUE_GREY_500 = -0x9f8275
         private val MATERIAL_PALETTES: MutableList<MaterialColorPalette>
         fun getRandomColor(key: String?): Int =
-            MATERIAL_PALETTES[nextInt(MATERIAL_PALETTES.size)].getColor(key)
+            MATERIAL_PALETTES[(nextLong(System.currentTimeMillis()) % MATERIAL_PALETTES.size).toInt()].getColor(
+                key
+            )
 
         /**
          * Lighten or darken a color

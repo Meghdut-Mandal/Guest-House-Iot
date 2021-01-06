@@ -17,12 +17,14 @@ object SampleDB : GHDataBase {
     val bookingList = getBooking()
 
     private fun getBooking(): MutableList<Booking> {
-        return (1..15).toList()
-            .map { Util.currentDate.time - 15 * Util.day + Random.nextInt(30) * Util.day }
+        val initialTime = Util.currentDate.time - (15 * Util.day)
+
+        return (1..30).toList()
+            .map { initialTime + Random.nextInt(30) * Util.day }
             .map { startTime ->
                 val endTime = startTime + Random.nextInt(6) * Util.day
                 Booking(
-                    "${Random.nextInt(startTime.toInt())}",
+                    "${Random.nextLong(startTime) + 1}",
                     startTime,
                     endTime,
                     roomList.randomElement().id,

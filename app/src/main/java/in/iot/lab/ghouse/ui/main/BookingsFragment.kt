@@ -1,24 +1,26 @@
 package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
-import `in`.iot.lab.ghouse.models.BookingItem
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.GenericFastAdapter
-import com.mikepenz.fastadapter.adapters.GenericItemAdapter
-import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
+import kotlinx.android.synthetic.main.fragment_bookings.*
 
 class BookingsFragment : Fragment() {
     val mainViewModel by lazy {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
+    private val bookingItemAdapter by lazy {
+        BookingItemAdapter()
+    }
+
     private lateinit var fastAdapter: FastAdapter<AbstractItem<*>>
 
 
@@ -30,12 +32,23 @@ class BookingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val stickyHeaderAdapter = StickyHeaderAdapter()
+        bookingsList.layoutManager = GridLayoutManager(context,1)
+        bookingsList.adapter = bookingItemAdapter
 
     }
+
+    val decoration by lazy {
+        HeaderItemDecoration(bookingsList) { itemPosition ->
+            bookingItemAdapter.getItemViewType(itemPosition) == 2
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-//        mainViewModel.
+        mainViewModel.stickeyItemLiveData.observe(viewLifecycleOwner) {
+            bookingItemAdapter.submitList(it)
+            bookingsList.addItemDecoration(decoration)
+        }
     }
 
 
