@@ -1,11 +1,15 @@
 package `in`.iot.lab.ghouse.ui.main
 
+import `in`.iot.lab.ghouse.MaterialColorPalette
 import `in`.iot.lab.ghouse.R
+import `in`.iot.lab.ghouse.Util.formatDayMonth
 import `in`.iot.lab.ghouse.models.Booking
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import kotlinx.android.synthetic.main.date_header.view.*
 import java.util.*
 
 
@@ -43,7 +47,7 @@ sealed class StickyHeaderItems {
 }
 
 
-class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewHolder>(diff) {
+class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewHolder>(diff){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StickyHeaderItemsViewHolder {
         val inflater = LayoutInflater.from(parent.context)

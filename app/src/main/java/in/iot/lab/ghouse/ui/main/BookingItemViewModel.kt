@@ -29,6 +29,6 @@ class DateItemViewHolder(itemView: View) : StickyHeaderItemsViewHolder(itemView)
     override fun bindData(stickyHeaderItems: StickyHeaderItems) {
         val dateItem = stickyHeaderItems as StickyHeaderItems.DateItem
         itemView.header_field.text = dateItem.date.formatDayMonth()
-        itemView.setBackgroundColor(MaterialColorPalette.getRandomColor("200"))
+        itemView.setBackgroundColor(MaterialColorPalette.getRandomColor("200",dateItem.date.time))
     }
 }

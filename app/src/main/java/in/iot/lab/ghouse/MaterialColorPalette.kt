@@ -28,6 +28,10 @@ class MaterialColorPalette(primary: Int) {
         const val GREY_500 = -0x616162
         const val BLUE_GREY_500 = -0x9f8275
         private val MATERIAL_PALETTES: MutableList<MaterialColorPalette>
+
+        fun getRandomColor(key: String?, seed: Long) =
+            MATERIAL_PALETTES[(seed % MATERIAL_PALETTES.size).toInt()].getColor(key)
+
         fun getRandomColor(key: String?): Int =
             MATERIAL_PALETTES[(nextLong(System.currentTimeMillis()) % MATERIAL_PALETTES.size).toInt()].getColor(
                 key

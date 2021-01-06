@@ -32,22 +32,16 @@ class BookingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bookingsList.layoutManager = GridLayoutManager(context,1)
+        bookingsList.layoutManager = GridLayoutManager(context, 1)
         bookingsList.adapter = bookingItemAdapter
-
     }
 
-    val decoration by lazy {
-        HeaderItemDecoration(bookingsList) { itemPosition ->
-            bookingItemAdapter.getItemViewType(itemPosition) == 2
-        }
-    }
+
 
     override fun onResume() {
         super.onResume()
         mainViewModel.stickeyItemLiveData.observe(viewLifecycleOwner) {
             bookingItemAdapter.submitList(it)
-            bookingsList.addItemDecoration(decoration)
         }
     }
 

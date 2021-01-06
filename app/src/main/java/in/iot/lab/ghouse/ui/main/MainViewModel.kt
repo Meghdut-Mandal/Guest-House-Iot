@@ -1,5 +1,6 @@
 package `in`.iot.lab.ghouse.ui.main
 
+import `in`.iot.lab.ghouse.Util
 import `in`.iot.lab.ghouse.Util.currentDate
 import `in`.iot.lab.ghouse.Util.getDates
 import `in`.iot.lab.ghouse.Util.toDate
@@ -36,9 +37,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun loadBookingTime(startTime: Long) {
-        val bookings = dataBase.getBookings(startTime, startTime - week).toMutableList()
+        val bookings = dataBase.getBookings(startTime, startTime - (30 * Util.day)).toMutableList()
         val stickyItems = arrayListOf<StickyHeaderItems>()
-        val dateList = getDates(startTime.toDate(), 30)
+        val dateList = getDates(startTime.toDate(), 60)
         stickyItems.addAll(dateList.map { StickyHeaderItems.DateItem(it) })
 
         val bookingItems = dateList.map { it.time }.flatMap { date ->
