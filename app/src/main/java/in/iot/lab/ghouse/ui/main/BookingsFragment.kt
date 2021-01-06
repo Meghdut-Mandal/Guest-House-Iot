@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
@@ -43,6 +44,10 @@ class BookingsFragment : Fragment() {
         mainViewModel.stickeyItemLiveData.observe(viewLifecycleOwner) {
             bookingItemAdapter.submitList(it)
         }
+        newBookingButton.setOnClickListener {
+            findNavController().navigate(R.id.action_bookingsFragment_to_newBooking)
+        }
+
     }
 
 

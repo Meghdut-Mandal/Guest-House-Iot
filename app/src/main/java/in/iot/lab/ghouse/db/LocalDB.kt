@@ -32,9 +32,17 @@ object LocalDB : GHDataBase {
         return read.first { it.id == id }
     }
 
+    override fun getFreRooms(startTime: Long, endTime: Long): List<Room> {
+        return arrayListOf()
+    }
+
     override fun getCustomer(id: String): Customer {
         val read = book.read("customers", arrayListOf<Customer>())
         return read.first { it.id == id }
+    }
+
+    override fun getActiveBookings(): List<Booking> {
+       return arrayListOf()
     }
 
 

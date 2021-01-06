@@ -7,13 +7,13 @@
         android:icon="@drawable/wallet"
         app:showAsAction="always"
 
-        android:title="DashBoard" />
+        android:title="Bookings" />
     <item
         android:id="@+id/fragment_utils"
         android:icon="@drawable/bookings"
         app:showAsAction="always"
 
-        android:title="Bookings" />
+        android:title="DashBoard" />
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/settings"

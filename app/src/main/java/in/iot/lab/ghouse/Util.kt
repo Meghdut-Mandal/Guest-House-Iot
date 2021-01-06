@@ -2,6 +2,7 @@ package `in`.iot.lab.ghouse
 
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.random.Random
 
 object Util {
     const val hour = 1000L * 60 * 60
@@ -21,6 +22,11 @@ object Util {
 
     fun Date.formatDayMonth() = df.format(this)
 
+    fun Date.format(style: String): String {
+        val f = SimpleDateFormat(style)
+        return f.format(this)
+    }
+
     fun Date.removeTime(): Date {
         val cal = Calendar.getInstance()
         cal.time = this
@@ -34,5 +40,10 @@ object Util {
     fun Long.toDate(): Date {
         return Date(this)
     }
+
+    fun <T> List<T>.randomElement(): T {
+        return this[Random.nextInt(size)]
+    }
+
 
 }

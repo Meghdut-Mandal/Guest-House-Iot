@@ -1,6 +1,7 @@
 package `in`.iot.lab.ghouse.db
 
 import `in`.iot.lab.ghouse.Util
+import `in`.iot.lab.ghouse.Util.randomElement
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.Customer
 import `in`.iot.lab.ghouse.models.LoggedInData
@@ -11,9 +12,10 @@ object SampleDB : GHDataBase {
     override var loginStatus: Boolean = false
 
     override var loggedInData: LoggedInData? = null
-
-    val roomList = (1..7).map { Room("$it", "10$it", null, false) }
-    val customerList = (1..9).map { Customer("$it", "pancard", "Ramu $it", "2323232323") }
+    val names = arrayListOf("Roshan Singh", "Sambit Majhi", "Nilanjan Manna", "Anmol Jain")
+    val roomList = (10..30).map { Room("$it", "10$it", null, false) }
+    val customerList =
+        (1..9).map { Customer("$it", "pancard", names.randomElement(), "2323232323") }
     val bookingList = getBooking()
 
     private fun getBooking(): MutableList<Booking> {
@@ -43,12 +45,17 @@ object SampleDB : GHDataBase {
         return roomList[id.hashCode() % roomList.size]
     }
 
+    override fun getFreRooms(startTime: Long, endTime: Long): List<Room> {
+        return roomList.filter { Random.nextBoolean() }
+    }
+
     override fun getCustomer(id: String): Customer {
         return customerList[id.hashCode() % customerList.size]
     }
 
-    private fun <T> List<T>.randomElement(): T {
-        return this[Random.nextInt(size)]
+    override fun getActiveBookings(): List<Booking> {
+        return getBookings(Util.currentDate.time, Util.currentDate.time - Util.hour)
     }
+
 
 }

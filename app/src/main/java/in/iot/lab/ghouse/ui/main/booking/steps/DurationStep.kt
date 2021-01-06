@@ -2,6 +2,7 @@ package `in`.iot.lab.ghouse.ui.main.booking.steps
 
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.Util
+import `in`.iot.lab.ghouse.Util.format
 import `in`.iot.lab.ghouse.Util.formatDayMonth
 import android.view.LayoutInflater
 import android.view.View
@@ -42,8 +43,10 @@ class DurationStep : Step<Pair<Date, Date>>("Duration of Stay ") {
         val layout = inflater.inflate(R.layout.step_duration_layout, null, false)
         layout.editStartDate.setOnClickListener {
             MaterialDialog(context).show {
-                datePicker { dialog, calendar ->
+                datePicker(  minDate = Calendar.getInstance()) { dialog, calendar ->
                     dates = calendar.time to dates.second
+                    layout.startDateField.text=calendar.time.format("dd.mm.yy")
+                    markAsCompletedOrUncompleted(true)
 
                 }
             }
@@ -52,10 +55,12 @@ class DurationStep : Step<Pair<Date, Date>>("Duration of Stay ") {
         layout.editEndDate.setOnClickListener {
             MaterialDialog(context).show {
                 datePicker(
-                    currentDate = Calendar.getInstance(),
-                    minDate = Calendar.getInstance()
+                     minDate = Calendar.getInstance()
                 ) { dialog, calendar ->
                     dates = dates.first to calendar.time
+                    layout.endDateField.text=calendar.time.format("dd.mm.yy")
+                    markAsCompletedOrUncompleted(true)
+
                 }
             }
         }

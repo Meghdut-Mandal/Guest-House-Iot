@@ -11,5 +11,7 @@ interface GHDataBase {
 
     fun getBookings(startTime: Long, endTime: Long): List<Booking>
     fun getRoom(id: String): Room
+    fun getFreRooms(startTime: Long, endTime: Long): List<Room>
     fun getCustomer(id: String): Customer
+    fun getActiveBookings(): List<Booking>
 }

@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import `in`.iot.lab.ghouse.R
 
-class MainFragment : Fragment() {
+class DashBoardFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = DashBoardFragment()
     }
 
     private val mainViewModel by lazy {
@@ -24,7 +24,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 
     override fun onResume() {

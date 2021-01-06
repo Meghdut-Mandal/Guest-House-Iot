@@ -44,10 +44,13 @@ class RoomStep : Step<String>("Room ") {
             roomCodes.map { code ->
                 val chip = Chip(context)
                 chip.text = code
+                chip.isCheckable=true
                 chip.setOnCheckedChangeListener { compoundButton, isChecked ->
                     if (isChecked) {
                         currentRoomCode = code
                     }
+
+                    markAsCompletedOrUncompleted(true)
                 }
                 chip
             }.forEach {

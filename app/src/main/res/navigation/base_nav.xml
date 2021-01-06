@@ -9,11 +9,7 @@
         android:id="@+id/newBooking"
         android:name="in.iot.lab.ghouse.ui.main.NewBooking"
         android:label="fragment_new_booking"
-        tools:layout="@layout/fragment_new_booking" >
-        <action
-            android:id="@+id/action_newBooking_to_bookingsFragment"
-            app:destination="@id/bookingsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_new_booking" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="in.iot.lab.ghouse.ui.main.SettingsFragment"
@@ -24,13 +20,14 @@
         android:name="in.iot.lab.ghouse.ui.main.BookingsFragment"
         android:label="fragment_bookings"
         tools:layout="@layout/fragment_bookings" >
+
         <action
             android:id="@+id/action_bookingsFragment_to_newBooking"
             app:destination="@id/newBooking" />
     </fragment>
     <fragment
         android:id="@+id/fragment_utils"
-        android:name="in.iot.lab.ghouse.ui.main.Utils"
+        android:name="in.iot.lab.ghouse.ui.main.DashBoardFragment"
         android:label="fragment_utils"
-        tools:layout="@layout/fragment_utils" />
+        tools:layout="@layout/fragment_dashboard" />
 </navigation>

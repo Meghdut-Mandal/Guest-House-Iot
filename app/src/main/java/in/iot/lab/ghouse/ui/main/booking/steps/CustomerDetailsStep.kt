@@ -26,11 +26,8 @@ class CustomerDetailsStep : Step<CustomerDetails>("Customer Details") {
             return IsDataValid(false, "Customer Name required")
         } else if (stepData.phoneNumber.isBlank()) {
             return IsDataValid(false, "PhoneNumber Required")
-        } else if (!"^(?:(?:\\+|0{0,2})91(\\s*[\\ -]\\s*)?|[0]?)?[789]\\d{9}|(\\d[ -]?){10}\\d\$".toRegex()
-                .matches(stepData.phoneNumber)
-        ) {
-            return IsDataValid(false, "Give Proper phone number, Eg 9800000001")
         }
+
         return IsDataValid(true)
     }
 
@@ -39,9 +36,11 @@ class CustomerDetailsStep : Step<CustomerDetails>("Customer Details") {
         val layout = inflater.inflate(R.layout.step_customer_layout, null, false)
         layout.customerNameField.doOnTextChanged { text, start, before, count ->
             customerDetails.name = text.toString()
+            markAsCompletedOrUncompleted(true)
         }
         layout.customerPhoneField.doOnTextChanged { text, start, before, count ->
             customerDetails.phoneNumber = text.toString()
+            markAsCompletedOrUncompleted(true)
         }
         return layout
     }

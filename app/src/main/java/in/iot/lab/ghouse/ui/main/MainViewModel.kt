@@ -13,6 +13,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import java.util.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -20,6 +21,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val dataBase: GHDataBase = SampleDB
 
     val stickeyItemLiveData = MutableLiveData<List<StickyHeaderItems>>()
+    val freeRoomLiveData = MutableLiveData<List<String>>()
+    val activeRoomsLiveData = MutableLiveData<List<StickyHeaderItems.BookingItem>>()
 
     init {
         loadBookingTime(currentDate.time)
@@ -38,8 +41,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadBookingTime(startTime: Long) {
         val bookings = dataBase.getBookings(startTime, startTime - (30 * Util.day)).toMutableList()
+
+        val startDate = bookings.minOf { it.startTime }
+        val endDate = bookings.maxOf { it.endTime }
         val stickyItems = arrayListOf<StickyHeaderItems>()
-        val dateList = getDates(startTime.toDate(), 60)
+        val dateList = (startDate..endDate step Util.day).map { it.toDate() }
         stickyItems.addAll(dateList.map { StickyHeaderItems.DateItem(it) })
 
         val bookingItems = dateList.map { it.time }.flatMap { date ->
@@ -55,6 +61,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val room = dataBase.getRoom(booking.roomId)
         val customer = dataBase.getCustomer(booking.customerId)
         return StickyHeaderItems.BookingItem(booking, room.roomCode, customer.name, date + 10)
+    }
+
+    fun loadFreeRooms(duration: Pair<Date, Date>) {
+        val freeRooms = dataBase.getFreRooms(duration.first.time, duration.second.time)
+        freeRoomLiveData.postValue(freeRooms.map { it.roomCode })
+    }
+
+    fun loadActiveRooms() {
+        val bookings=dataBase.getActiveBookings()
+        activeRoomsLiveData.postValue( bookings.map { getBookingItem(it,currentDate.time) })
     }
 
 
