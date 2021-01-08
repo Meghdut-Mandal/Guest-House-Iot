@@ -27,6 +27,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val recentPaymentLiveData = MutableLiveData<List<Payment>>()
 
     init {
+
         loadBookingTime(currentDate.time)
     }
 
