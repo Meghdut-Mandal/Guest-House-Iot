@@ -9,6 +9,7 @@ import `in`.iot.lab.ghouse.db.GHDataBase
 import `in`.iot.lab.ghouse.db.SampleDB
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.LoggedInData
+import `in`.iot.lab.ghouse.models.Payment
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +24,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val stickeyItemLiveData = MutableLiveData<List<StickyHeaderItems>>()
     val freeRoomLiveData = MutableLiveData<List<String>>()
     val activeRoomsLiveData = MutableLiveData<List<StickyHeaderItems.BookingItem>>()
+    val recentPaymentLiveData = MutableLiveData<List<Payment>>()
 
     init {
         loadBookingTime(currentDate.time)
@@ -69,8 +71,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun loadActiveRooms() {
-        val bookings=dataBase.getActiveBookings()
-        activeRoomsLiveData.postValue( bookings.map { getBookingItem(it,currentDate.time) })
+        val bookings = dataBase.getActiveBookings()
+        activeRoomsLiveData.postValue(bookings.map { getBookingItem(it, currentDate.time) })
+    }
+
+    fun loadPayments() {
+        val payments = dataBase.getRecentPayments()
+        recentPaymentLiveData.postValue(payments)
+//        payments.ma
     }
 
 

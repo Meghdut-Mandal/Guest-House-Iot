@@ -1,9 +1,6 @@
 package `in`.iot.lab.ghouse.db
 
-import `in`.iot.lab.ghouse.models.Booking
-import `in`.iot.lab.ghouse.models.Customer
-import `in`.iot.lab.ghouse.models.LoggedInData
-import `in`.iot.lab.ghouse.models.Room
+import `in`.iot.lab.ghouse.models.*
 
 interface GHDataBase {
     var loginStatus: Boolean
@@ -14,4 +11,5 @@ interface GHDataBase {
     fun getFreRooms(startTime: Long, endTime: Long): List<Room>
     fun getCustomer(id: String): Customer
     fun getActiveBookings(): List<Booking>
+    fun getRecentPayments(): List<Payment>
 }

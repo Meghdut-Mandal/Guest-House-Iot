@@ -20,7 +20,6 @@ class BookingItemViewHolder(itemView: View) : StickyHeaderItemsViewHolder(itemVi
         itemView.room_number.text = bookingItem.roomName
         itemView.customer_name.text = bookingItem.customerName
         itemView.endtime.text = bookingItem.booking.endTime.toDate().formatDayMonth()
-//        itemView.header_field.text = "Booking "+bookingItem.booking.endTime.toDate().formatDayMonth()
     }
 }
 

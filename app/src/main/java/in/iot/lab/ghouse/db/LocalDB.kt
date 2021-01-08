@@ -1,9 +1,6 @@
 package `in`.iot.lab.ghouse.db
 
-import `in`.iot.lab.ghouse.models.Booking
-import `in`.iot.lab.ghouse.models.Customer
-import `in`.iot.lab.ghouse.models.LoggedInData
-import `in`.iot.lab.ghouse.models.Room
+import `in`.iot.lab.ghouse.models.*
 import io.paperdb.Book
 import io.paperdb.Paper
 
@@ -43,6 +40,10 @@ object LocalDB : GHDataBase {
 
     override fun getActiveBookings(): List<Booking> {
        return arrayListOf()
+    }
+
+    override fun getRecentPayments(): List<Payment> {
+        return  arrayListOf()
     }
 
 
