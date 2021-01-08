@@ -1,34 +1,33 @@
 package `in`.iot.lab.ghouse.ui.main
 
-import `in`.iot.lab.ghouse.MaterialColorPalette
 import `in`.iot.lab.ghouse.R
-import `in`.iot.lab.ghouse.Util.formatDayMonth
 import `in`.iot.lab.ghouse.models.Booking
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import kotlinx.android.synthetic.main.date_header.view.*
 import java.util.*
 
 
-val diff: DiffUtil.ItemCallback<StickyHeaderItems> =
-    object : DiffUtil.ItemCallback<StickyHeaderItems>() {
+fun <T : Any> getDiffUtil():DiffUtil.ItemCallback<T>{
+    return object : DiffUtil.ItemCallback<T>() {
         override fun areItemsTheSame(
-            oldItem: StickyHeaderItems,
-            newItem: StickyHeaderItems
+            oldItem: T,
+            newItem: T
         ): Boolean {
             return oldItem === newItem
         }
 
+        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(
-            oldItem: StickyHeaderItems,
-            newItem: StickyHeaderItems
+            oldItem: T,
+            newItem: T
         ): Boolean {
             return oldItem == newItem
         }
     }
+}
 
 
 sealed class StickyHeaderItems {
@@ -47,7 +46,7 @@ sealed class StickyHeaderItems {
 }
 
 
-class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewHolder>(diff){
+class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewHolder>(getDiffUtil<StickyHeaderItems>()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StickyHeaderItemsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
