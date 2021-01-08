@@ -51,6 +51,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val dateList = (startDate..endDate step Util.day).map { it.toDate() }
         stickyItems.addAll(dateList.map { StickyHeaderItems.DateItem(it) })
 
+
         val bookingItems = dateList.map { it.time }.flatMap { date ->
             bookings.filter { it.startTime <= date && it.endTime >= date }
                 .map { getBookingItem(it, date) }
