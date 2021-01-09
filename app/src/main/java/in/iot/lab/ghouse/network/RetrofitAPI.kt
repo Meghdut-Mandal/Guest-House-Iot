@@ -1,4 +1,4 @@
-package `in`.iot.lab.ghouse.db
+package `in`.iot.lab.ghouse.network
 
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.Customer
@@ -8,10 +8,8 @@ import `in`.iot.lab.ghouse.ui.main.NewBooking
 import retrofit2.Call
 import retrofit2.http.*
 
-interface GHInterface {
+interface RetrofitAPI {
 
-//    @GET("booking")
-//    fun getBookings(@Query("checkIn") checkIn: String?,@Query("checkOut") checkOut: String?): List<Booking>
 
     @GET("booking/{id}")
     fun getBookings(@Path("id") id: String): Call<Booking>
@@ -32,7 +30,7 @@ interface GHInterface {
     fun createRoom(@Body newRoom: Room): Call<Room>
 
     @POST("booking/create")
-    fun createbooking(@Body newBooking: NewBooking) : Call<Booking>
+    fun createBooking(@Body newBooking: NewBooking) : Call<Booking>
 
 
 

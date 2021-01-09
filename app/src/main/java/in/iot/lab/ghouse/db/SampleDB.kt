@@ -6,9 +6,7 @@ import `in`.iot.lab.ghouse.models.*
 import kotlin.random.Random
 
 object SampleDB : GHDataBase {
-    override var loginStatus: Boolean = false
 
-    override var loggedInData: LoggedInData? = null
     private val names = arrayListOf("Roshan Singh", "Sambit Majhi", "Nilanjan Manna", "Anmol Jain")
     private val roomList = (10..30).map { Room("$it", "10$it", null, false) }
     private val customerList =

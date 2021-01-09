@@ -12,17 +12,6 @@ object LocalDB : GHDataBase {
 
     private val book: Book by lazy { Paper.book() }
 
-    override var loginStatus: Boolean
-        get() = book.read("login", false)
-        set(value) {
-            book.write("login", value)
-        }
-
-    override var loggedInData: LoggedInData?
-        get() = book.read("loggedinData")
-        set(value) {
-            book.write("loggedinData", value)
-        }
 
     override fun getRoom(id: String): Room {
         val read = book.read("rooms", arrayListOf<Room>())

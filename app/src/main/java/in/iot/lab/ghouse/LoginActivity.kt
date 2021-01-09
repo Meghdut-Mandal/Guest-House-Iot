@@ -12,8 +12,8 @@ import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
-    val RC_SIGN_IN = 12
-    val IS_LOGGED_IN = "is_logedin"
+    private val RC_SIGN_IN = 12
+    private val IS_LOGGED_IN = "is_logedin"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val isLoggedIn = sharedPreferences.getBoolean(IS_LOGGED_IN, false)
