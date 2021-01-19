@@ -1,7 +1,8 @@
 package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
-import `in`.iot.lab.ghouse.models.CustomerDetails
+import `in`.iot.lab.ghouse.db.Resource
+import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.ui.main.booking.steps.CustomerDetailsStep
 import `in`.iot.lab.ghouse.ui.main.booking.steps.DurationStep
 import `in`.iot.lab.ghouse.ui.main.booking.steps.PaymentDetailsStep
@@ -11,16 +12,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import ernestoyaquello.com.verticalstepperform.Step
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener
 import kotlinx.android.synthetic.main.fragment_new_booking.*
 import kotlinx.android.synthetic.main.fragment_new_booking.view.*
+import java.lang.Exception
 import java.util.*
 
 
 class NewBooking : Fragment(), StepperFormListener {
-    val mainViewModel by lazy {
+    private val mainViewModel by lazy {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
 
@@ -28,6 +32,7 @@ class NewBooking : Fragment(), StepperFormListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_new_booking, container, false)
         view.stepper_form.setup(
             this,
@@ -54,18 +59,71 @@ class NewBooking : Fragment(), StepperFormListener {
         mainViewModel.freeRoomLiveData.observe(viewLifecycleOwner) {
             roomStep.setUpRooms(it)
         }
+        progressBar.isIndeterminate = true
+
+        progressBar.isVisible = false
     }
 
     private fun loadRooms(duration: Pair<Date, Date>) {
-        mainViewModel.loadFreeRooms(duration)
+        mainViewModel.loadFreeRooms(duration).observe(this) {
+            when (it) {
+                Resource.Loading -> {
+                    roomStep.setUpRooms(listOf())
+                    progressBar.isVisible = true
+                }
+                is Resource.Success<*> -> {
+                    progressBar.isVisible = false
+                    val room = it as Resource.Success<List<String>>
+                    roomStep.setUpRooms(room.value)
+                }
+                is Resource.Faliure -> {
+                    progressBar.isVisible = false
+
+                    error("Failed to Load rooms")
+                }
+            }
+        }
     }
 
     override fun onCompletedForm() {
+        val duration = durationStep.dates
+        val roomName = roomStep.stepData
+        val payment = paymentDetailsStep.stepData
+        val customerDetails = customerDetailsStep.stepData
+        val id = System.currentTimeMillis().toString()
+        val booking = Booking(
+            id,
+            duration.first.time,
+            duration.second.time,
+            customerDetails,
+            "authorx",
+            roomName,
+            payment
+        )
+        mainViewModel.addBooking(booking).observe(this) {
 
+            when (it) {
+                is Resource.Loading -> {
+                    progressBar.isVisible = true
+                }
+                is Resource.Success<*> -> {
+                    findNavController().navigate(R.id.action_newBooking_to_bookingsFragment)
+                }
+                is Resource.Faliure -> {
+                    progressBar.isVisible = false
+                    error("Failed to add Booking!")
+                }
+            }
+        }
+    }
+
+    private fun error(msg: String) {
+        Snackbar.make(stepper_form, msg, Snackbar.LENGTH_LONG)
+            .show()
     }
 
     override fun onCancelledForm() {
-
+        findNavController().navigate(R.id.action_newBooking_to_bookingsFragment)
     }
 
 

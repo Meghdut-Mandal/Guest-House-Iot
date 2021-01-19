@@ -11,7 +11,7 @@ abstract class AbstractAdapter<T : Any>(
     @LayoutRes val layout: Int,
     val bindData: View.(T, Int) -> Unit
 ) :
-    ListAdapter<T, GenericViewModel>(getDiffUtil<T>()) {
+    ListAdapter<T, GenericViewModel>(diffUtil<T>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewModel {
         val inflater = LayoutInflater.from(parent.context)

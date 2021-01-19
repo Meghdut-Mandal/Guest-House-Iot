@@ -3,6 +3,7 @@ package `in`.iot.lab.ghouse.ui.main
 import `in`.iot.lab.ghouse.MaterialColorPalette
 import `in`.iot.lab.ghouse.Util.formatDayMonth
 import `in`.iot.lab.ghouse.Util.toDate
+import `in`.iot.lab.ghouse.models.Booking
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.date_header.view.*

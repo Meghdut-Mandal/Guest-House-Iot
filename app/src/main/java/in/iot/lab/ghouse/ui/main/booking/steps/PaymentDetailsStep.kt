@@ -1,7 +1,7 @@
 package `in`.iot.lab.ghouse.ui.main.booking.steps
 
 import `in`.iot.lab.ghouse.R
-import `in`.iot.lab.ghouse.models.PaymentDetails
+import `in`.iot.lab.ghouse.models.Payment
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
@@ -11,21 +11,23 @@ import ernestoyaquello.com.verticalstepperform.Step
 import kotlinx.android.synthetic.main.step_payment_layout.view.*
 
 
-class PaymentDetailsStep : Step<PaymentDetails>("Payment ") {
-    private var paymentDetails = PaymentDetails()
-    override fun getStepData(): PaymentDetails {
-        return paymentDetails
+class PaymentDetailsStep : Step<Payment>("Payment ") {
+    private var info = ""
+    private var method = ""
+    override fun getStepData(): Payment {
+        return Payment(method, info)
     }
 
     override fun getStepDataAsHumanReadableString(): String {
-        return "${paymentDetails.type} "
+        return "$method $info"
     }
 
-    override fun restoreStepData(data: PaymentDetails) {
-        paymentDetails = data
+    override fun restoreStepData(data: Payment) {
+        info = data.info
+        method = data.paymentMethod
     }
 
-    override fun isStepDataValid(stepData: PaymentDetails): IsDataValid {
+    override fun isStepDataValid(stepData: Payment): IsDataValid {
         if (stepData.info.isNotEmpty()) {
             return IsDataValid(true)
         }
@@ -40,12 +42,12 @@ class PaymentDetailsStep : Step<PaymentDetails>("Payment ") {
             context, android.R.layout.simple_spinner_dropdown_item, spinnerArray
         )
         view.paymentInfo.doOnTextChanged { text, start, before, count ->
-            paymentDetails.info = text.toString()
+            info = text.toString()
             markAsCompletedOrUncompleted(true)
         }
         view.paymentType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
-                paymentDetails.type = spinnerArray[pos]
+                method = spinnerArray[pos]
                 markAsCompletedOrUncompleted(true)
             }
 

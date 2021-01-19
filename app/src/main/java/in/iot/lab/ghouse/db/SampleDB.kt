@@ -5,21 +5,18 @@ import `in`.iot.lab.ghouse.Util.randomElement
 import `in`.iot.lab.ghouse.models.*
 import kotlin.random.Random
 
-object SampleDB : GHDataBase {
+object SampleDB  {
 
     private val names = arrayListOf("Roshan Singh", "Sambit Majhi", "Nilanjan Manna", "Anmol Jain")
-    private val roomList = (10..30).map { Room("$it", "10$it", null, false) }
+    private val roomList = (10..30).map { Room("$it", "10$it", "") }
     private val customerList =
-        (1..9).map { Customer("$it", "pancard", names.randomElement(), "2323232323") }
-    private val bookingList = getBooking()
+        (1..9).map { Customer(names.randomElement(), "2323232323") }
+    val bookingList by lazy { getBooking() }
     private val paymentTypes = arrayListOf("UPI", "Cash", "None")
-    val paymentsList = bookingList.map {
+    val paymentsList = (1..10).map {
         Payment(
-            it.paymentsId,
             paymentTypes.randomElement(),
-            it.customerId,
-            it.startTime,
-            Random.nextDouble(100.0,1000.0)
+            Random.nextDouble(100.0, 1000.0).toString()
         )
     }
 
@@ -35,36 +32,36 @@ object SampleDB : GHDataBase {
                     "${Random.nextLong(startTime) + 1}",
                     startTime,
                     endTime,
-                    roomList.randomElement().id,
-                    customerList.randomElement().id,
-                    "dsds",
-                    "dsds"
+                    customerList.randomElement(),
+                    "megdhut",
+                    roomList.randomElement().roomCode,
+                    paymentsList[0]
                 )
             }.toMutableList()
     }
 
-    override fun getBookings(startTime: Long, endTime: Long): List<Booking> {
+     fun getBookings(startTime: Long, endTime: Long): List<Booking> {
         return bookingList.filter { it.startTime >= startTime && endTime <= endTime }
     }
 
-    override fun getRoom(id: String): Room {
+     fun getRoom(id: String): Room {
         return roomList[id.hashCode() % roomList.size]
     }
 
-    override fun getFreRooms(startTime: Long, endTime: Long): List<Room> {
-        return roomList.filter { Random.nextBoolean() }
+     fun getFreeRooms(startTime: Long, endTime: Long): List<Room> {
+        return roomList
     }
 
-    override fun getCustomer(id: String): Customer {
+     fun getCustomer(id: String): Customer {
         return customerList[id.hashCode() % customerList.size]
     }
 
-    override fun getActiveBookings(): List<Booking> {
+     fun getActiveBookings(): List<Booking> {
         return getBookings(Util.currentDate.time, Util.currentDate.time - Util.hour)
     }
 
-    override fun getRecentPayments(): List<Payment> {
-       return  paymentsList.subList(0,10)
+     fun getRecentPayments(): List<Payment> {
+        return paymentsList.subList(0, 10)
     }
 
 

@@ -9,7 +9,11 @@
         android:id="@+id/newBooking"
         android:name="in.iot.lab.ghouse.ui.main.NewBooking"
         android:label="fragment_new_booking"
-        tools:layout="@layout/fragment_new_booking" />
+        tools:layout="@layout/fragment_new_booking" >
+        <action
+            android:id="@+id/action_newBooking_to_bookingsFragment"
+            app:destination="@id/bookingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="in.iot.lab.ghouse.ui.main.SettingsFragment"

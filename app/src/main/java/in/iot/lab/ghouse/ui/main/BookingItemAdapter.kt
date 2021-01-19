@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import java.util.*
 
 
-fun <T : Any> getDiffUtil():DiffUtil.ItemCallback<T>{
+fun <T : Any> diffUtil():DiffUtil.ItemCallback<T>{
     return object : DiffUtil.ItemCallback<T>() {
         override fun areItemsTheSame(
             oldItem: T,
@@ -46,7 +46,7 @@ sealed class StickyHeaderItems {
 }
 
 
-class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewHolder>(getDiffUtil<StickyHeaderItems>()){
+class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewHolder>(diffUtil<StickyHeaderItems>()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StickyHeaderItemsViewHolder {
         val inflater = LayoutInflater.from(parent.context)

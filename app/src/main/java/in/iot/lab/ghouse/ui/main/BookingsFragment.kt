@@ -19,7 +19,7 @@ class BookingsFragment : Fragment() {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
     private val bookingItemAdapter by lazy {
-        BookingItemAdapter()
+        BookingAdapter2()
     }
 
     private lateinit var fastAdapter: FastAdapter<AbstractItem<*>>
@@ -41,9 +41,10 @@ class BookingsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mainViewModel.stickeyItemLiveData.observe(viewLifecycleOwner) {
-            bookingItemAdapter.submitList(it)
-        }
+//        mainViewModel.stickeyItemLiveData.observe(viewLifecycleOwner) {
+//            bookingItemAdapter.submitList(it)
+//        }
+
         newBookingButton.setOnClickListener {
             findNavController().navigate(R.id.action_bookingsFragment_to_newBooking)
         }
