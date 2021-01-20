@@ -28,10 +28,22 @@
         <action
             android:id="@+id/action_bookingsFragment_to_newBooking"
             app:destination="@id/newBooking" />
+        <action
+            android:id="@+id/action_bookingsFragment_to_bookingDetailsFragment"
+            app:destination="@id/bookingDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragment_utils"
         android:name="in.iot.lab.ghouse.ui.main.DashBoardFragment"
         android:label="fragment_utils"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_fragment_utils_to_bookingDetailsFragment"
+            app:destination="@id/bookingDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingDetailsFragment"
+        android:name="in.iot.lab.ghouse.ui.main.BookingDetailsFragment"
+        android:label="fragment_booking_details"
+        tools:layout="@layout/fragment_booking_details" />
 </navigation>

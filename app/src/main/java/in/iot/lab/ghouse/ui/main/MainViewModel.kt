@@ -15,10 +15,12 @@ import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.collect
 import java.util.*
 import java.util.concurrent.Executor
+@ExperimentalCoroutinesApi
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -28,9 +30,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val activeRoomsLiveData = MutableLiveData<List<RvItem.BookingItem>>()
     private val recentPaymentLiveData = MutableLiveData<List<Payment>>()
     private val bookingDb = BookingDatabase()
-    private val executor: Executor
-        get() = Dispatchers.IO.asExecutor()
-    private val factory by lazy { BookingDataSourceFactory() }
     private val config = PagedList.Config.Builder().build()
     private var bookingLiveData: LiveData<PagedList<RvItem>>? = null
 
@@ -48,8 +47,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun loadBooking(lifecycleOwner: LifecycleOwner): LiveData<PagedList<RvItem>> {
+    fun loadBooking(
+        lifecycleOwner: LifecycleOwner,
+        startTime: Long = -1
+    ): LiveData<PagedList<RvItem>> {
+
         bookingLiveData?.removeObservers(lifecycleOwner)
+        val factory = BookingDataSourceFactory(startTime)
         bookingLiveData = LivePagedListBuilder(factory, config).build()
         return bookingLiveData!!
     }
@@ -68,8 +72,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val payments = dataBase.getRecentPayments()
         recentPaymentLiveData.postValue(payments)
     }
-
-
 
 
 }

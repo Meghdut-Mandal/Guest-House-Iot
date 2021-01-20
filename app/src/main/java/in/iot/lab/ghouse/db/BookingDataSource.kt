@@ -11,7 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-class BookingDataSource : PageKeyedDataSource<Int, RvItem>() {
+class BookingDataSource(val startTime: Long) : PageKeyedDataSource<Int, RvItem>() {
 
     private var initialQuery: Query
     private var lastVisible: DocumentSnapshot? = null
@@ -21,8 +21,13 @@ class BookingDataSource : PageKeyedDataSource<Int, RvItem>() {
     private val itemsPerPage = 50L
 
     init {
-        initialQuery =
-            bookingRef.orderBy("startTime", Query.Direction.ASCENDING).limit(itemsPerPage)
+        if (startTime > 0) {
+            initialQuery = bookingRef.whereGreaterThanOrEqualTo("startTime", startTime)
+                .orderBy("startTime", Query.Direction.ASCENDING).limit(itemsPerPage)
+        } else {
+            initialQuery =
+                bookingRef.orderBy("startTime", Query.Direction.ASCENDING).limit(itemsPerPage)
+        }
     }
 
 
@@ -58,7 +63,7 @@ class BookingDataSource : PageKeyedDataSource<Int, RvItem>() {
         val dateItems = (minDate..maxDate step day).map { RvItem.DateItem(it.toDate()) }
         val bookingItems: MutableList<RvItem> = dateItems.map { it.date.time }.flatMap { time ->
             bookingList.filter { it.startTime <= time && it.endTime >= time }
-                .map { RvItem.BookingItem(it, time) }
+                .map { RvItem.BookingItem(it, time+100) }
         }.toMutableList()
 
         bookingItems.addAll(dateItems)
@@ -80,13 +85,13 @@ class BookingDataSource : PageKeyedDataSource<Int, RvItem>() {
                     val bookingList: List<Booking> =
                         nextTask.result?.toObjects(Booking::class.java) ?: listOf()
                     val items = getItems(bookingList)
-                    callback.onResult(items,  pageNumber)
+                    callback.onResult(items, pageNumber)
                     pageNumber++
 
-                    if (bookingList.size<itemsPerPage){
-                        lastPageReached=true
-                    }else{
-                        lastVisible=nextTask.result?.documents?.last()
+                    if (bookingList.size < itemsPerPage) {
+                        lastPageReached = true
+                    } else {
+                        lastVisible = nextTask.result?.documents?.last()
                     }
 
                 }

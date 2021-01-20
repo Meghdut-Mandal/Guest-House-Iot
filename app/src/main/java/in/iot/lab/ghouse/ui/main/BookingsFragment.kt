@@ -1,6 +1,7 @@
 package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
+import `in`.iot.lab.ghouse.Util.day
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import kotlinx.android.synthetic.main.fragment_bookings.*
+import java.util.*
 
 class BookingsFragment : Fragment() {
     val mainViewModel by lazy {
@@ -39,7 +41,7 @@ class BookingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         println("in.iot.lab.ghouse.ui.main>BookingsFragment>onResume   ")
-        mainViewModel.loadBooking(this).observe(viewLifecycleOwner) {
+        mainViewModel.loadBooking(this, Date().time - 30 * day).observe(viewLifecycleOwner) {
             bookingItemAdapter.submitList(it)
         }
 

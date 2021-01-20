@@ -3,9 +3,11 @@ package `in`.iot.lab.ghouse.db
 import `in`.iot.lab.ghouse.ui.main.RvItem
 import androidx.paging.DataSource
 
-class BookingDataSourceFactory : DataSource.Factory<Int, RvItem>() {
+class BookingDataSourceFactory(startTime: Long) : DataSource.Factory<Int, RvItem>() {
 
-    private val dataSource = BookingDataSource()
+    constructor() : this(-1)
+
+    private val dataSource = BookingDataSource(startTime)
     override fun create(): DataSource<Int, RvItem> = dataSource
 
 }
