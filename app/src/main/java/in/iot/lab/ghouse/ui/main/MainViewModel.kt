@@ -13,20 +13,18 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.collect
 import java.util.*
 import java.util.concurrent.Executor
-import kotlin.coroutines.CoroutineContext
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dataBase = SampleDB
 
     val freeRoomLiveData = MutableLiveData<List<String>>()
-    val activeRoomsLiveData = MutableLiveData<List<StickyHeaderItems.BookingItem>>()
+    val activeRoomsLiveData = MutableLiveData<List<RvItem.BookingItem>>()
     private val recentPaymentLiveData = MutableLiveData<List<Payment>>()
     private val bookingDb = BookingDatabase()
     private val executor: Executor

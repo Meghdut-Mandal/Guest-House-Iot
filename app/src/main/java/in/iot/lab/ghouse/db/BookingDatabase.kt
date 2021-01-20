@@ -4,11 +4,13 @@ import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.Room
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class BookingDatabase {
 
     private val firestore = Firebase.firestore
@@ -35,14 +37,18 @@ class BookingDatabase {
             val rooms = (roomResource as Resource.Success<List<Room>>).value.map { it.roomCode }
             println("in.iot.lab.ghouse.db>BookingDatabase>getFreeRoom  Founf roooms $rooms ")
             getBookings(duration).collect { bookingResource ->
-                if (bookingResource is Resource.Faliure) {
-                    offer(bookingResource)
+                when (bookingResource) {
+                    is Resource.Faliure -> {
+                        offer(bookingResource)
+                    }
+                    is Resource.Success -> {
+                        val bookedRooms = bookingResource.value.map { it.room ?: "" }
+                        println("in.iot.lab.ghouse.db>BookingDatabase>getFreeRoom  Found booked rooms $bookedRooms ")
+                        val freeRooms = rooms.filterNot { bookedRooms.contains(it) }
+                        offer(Resource.Success(freeRooms))
+                    }
                 }
-                val bookedRooms =
-                    (bookingResource as Resource.Success<List<Booking>>).value.map { it.room ?: "" }
-                println("in.iot.lab.ghouse.db>BookingDatabase>getFreeRoom  Found booked rooms $bookedRooms ")
-                val freeRooms = rooms.filterNot { bookedRooms.contains(it) }
-                offer(Resource.Success(freeRooms))
+
             }
         }
 

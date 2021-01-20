@@ -30,14 +30,13 @@ fun <T : Any> diffUtil():DiffUtil.ItemCallback<T>{
 }
 
 
-sealed class StickyHeaderItems {
+sealed class RvItem {
     class BookingItem(
         val booking: Booking,
-        val roomName: String,
-        val customerName: String, override val id: Long
-    ) : StickyHeaderItems()
+        override val id: Long
+    ) : RvItem()
 
-    class DateItem(val date: Date) : StickyHeaderItems() {
+    class DateItem(val date: Date) : RvItem() {
         override val id: Long
             get() = date.time
     }
@@ -46,9 +45,9 @@ sealed class StickyHeaderItems {
 }
 
 
-class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewHolder>(diffUtil<StickyHeaderItems>()){
+class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StickyHeaderItemsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             1 -> {
@@ -63,7 +62,7 @@ class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewH
 
     }
 
-    override fun onBindViewHolder(holder: StickyHeaderItemsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RvViewHolder, position: Int) {
         val item = getItem(position)
         getItemViewType(position)
         holder.bindData(item)
@@ -71,7 +70,7 @@ class BookingItemAdapter : ListAdapter<StickyHeaderItems, StickyHeaderItemsViewH
 
     override fun getItemViewType(position: Int) =
         when (getItem(position)) {
-            is StickyHeaderItems.BookingItem -> 1
-            is StickyHeaderItems.DateItem -> 2
+            is RvItem.BookingItem -> 1
+            is RvItem.DateItem -> 2
         }
 }
