@@ -10,9 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.items.AbstractItem
 import kotlinx.android.synthetic.main.fragment_bookings.*
 import java.util.*
 
@@ -21,7 +18,7 @@ class BookingsFragment : Fragment() {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
     private val bookingItemAdapter by lazy {
-        BookingItemAdapter()
+        BookingItemPagingAdapter()
     }
 
 

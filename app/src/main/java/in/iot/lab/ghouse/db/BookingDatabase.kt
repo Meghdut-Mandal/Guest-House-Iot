@@ -2,6 +2,7 @@ package `in`.iot.lab.ghouse.db
 
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.Room
+import `in`.iot.lab.ghouse.ui.main.RvItem
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,6 +29,7 @@ class BookingDatabase {
 
         }
     }
+
 
     fun getFreeRoom(duration: Pair<Date, Date>) = callbackFlow {
         getRooms().collect { roomResource ->
@@ -87,7 +89,7 @@ class BookingDatabase {
     }
 
 
-    fun listenToBookings(duration: Pair<Date, Date>) = callbackFlow {
+    fun listenToBookings(duration: Pair<Date, Date>, checkEndTime: Boolean = true) = callbackFlow {
         val addSnapshotListener = bookingRef
             .whereGreaterThanOrEqualTo("startTime", duration.first.time)
             .whereLessThanOrEqualTo("startTime", duration.second.time)
@@ -96,8 +98,11 @@ class BookingDatabase {
                     offer(Resource.Faliure(error))
                 } else {
                     val mainList = value?.toObjects(Booking::class.java) ?: listOf()
-                    val list = mainList.filter { it.endTime <= duration.second.time }
-                    offer(Resource.Success(list))
+                    val list =
+                        if (checkEndTime) mainList.filter { it.endTime <= duration.second.time } else mainList
+                    val items =
+                        list.map { RvItem.BookingItem(it, it.startTime) }.sortedBy { it.id }
+                    offer(Resource.Success(items))
                 }
             }
 

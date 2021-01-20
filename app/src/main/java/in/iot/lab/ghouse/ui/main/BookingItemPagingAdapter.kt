@@ -46,7 +46,7 @@ sealed class RvItem {
 }
 
 
-class BookingItemAdapter : PagedListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
+class BookingItemPagingAdapter : PagedListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -77,3 +77,37 @@ class BookingItemAdapter : PagedListAdapter<RvItem, RvViewHolder>(diffUtil<RvIte
         }
     }
 }
+
+
+class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            1 -> {
+                val inflatedView = inflater.inflate(R.layout.room_item, null, false)
+                BookingItemViewHolder(inflatedView)
+            }
+            else -> {
+                val inflatedView = inflater.inflate(R.layout.date_header, null, false)
+                DateItemViewHolder(inflatedView)
+            }
+        }
+
+    }
+
+    override fun onBindViewHolder(holder: RvViewHolder, position: Int) {
+        val item = getItem(position)?: return
+        getItemViewType(position)
+        holder.bindData(item)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position) ?: return 0
+        return when (item) {
+            is RvItem.BookingItem -> 1
+            is RvItem.DateItem -> 2
+        }
+    }
+}
+
