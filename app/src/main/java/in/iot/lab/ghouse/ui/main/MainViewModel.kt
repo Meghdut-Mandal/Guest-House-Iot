@@ -4,15 +4,16 @@ import `in`.iot.lab.ghouse.Util
 import `in`.iot.lab.ghouse.Util.currentDate
 import `in`.iot.lab.ghouse.Util.removeTime
 import `in`.iot.lab.ghouse.Util.toDate
+import `in`.iot.lab.ghouse.db.BookingDataSourceFactory
 import `in`.iot.lab.ghouse.db.BookingDatabase
 import `in`.iot.lab.ghouse.db.Resource
 import `in`.iot.lab.ghouse.db.SampleDB
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.Payment
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.collect
@@ -29,24 +30,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val bookingDb = BookingDatabase()
     private val executor: Executor
         get() = Dispatchers.IO.asExecutor()
-
-    init {
-
-        loadBookingTime(currentDate.time)
-    }
-
-
-    fun loadBookingTime(startTime: Long) {
-
-
-    }
+    private val factory by lazy { BookingDataSourceFactory() }
+    private val config = PagedList.Config.Builder().build()
+    private var bookingLiveData: LiveData<PagedList<RvItem>>? = null
 
     fun addBooking(booking: Booking) = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
         bookingDb.addBooking(booking).collect {
             emit(it)
         }
-
     }
 
     fun loadFreeRooms(duration: Pair<Date, Date>) = liveData(Dispatchers.IO) {
@@ -56,12 +48,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun loadBooking(lifecycleOwner: LifecycleOwner): LiveData<PagedList<RvItem>> {
+        bookingLiveData?.removeObservers(lifecycleOwner)
+        bookingLiveData = LivePagedListBuilder(factory, config).build()
+        return bookingLiveData!!
+    }
+
 
     fun loadActiveRooms() = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
         val date = Date().removeTime()
         val tmmrw = (date.time + Util.day).toDate()
-        bookingDb.listenToBookings(date to tmmrw).collect{
+        bookingDb.listenToBookings(date to tmmrw).collect {
             emit(it)
         }
     }
@@ -70,6 +68,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val payments = dataBase.getRecentPayments()
         recentPaymentLiveData.postValue(payments)
     }
+
+
 
 
 }

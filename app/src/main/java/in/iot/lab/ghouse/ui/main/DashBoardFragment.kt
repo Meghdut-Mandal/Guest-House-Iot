@@ -41,7 +41,7 @@ class DashBoardFragment : Fragment() {
         mainViewModel.loadPayments()
         mainViewModel.activeRoomsLiveData.observe(viewLifecycleOwner) {
             if (it!=null) {
-                adapter.submitList(it)
+//                adapter.submitList(it)
             }
         }
 

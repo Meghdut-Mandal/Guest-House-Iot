@@ -5,6 +5,7 @@ import `in`.iot.lab.ghouse.models.Booking
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import java.util.*
@@ -45,7 +46,7 @@ sealed class RvItem {
 }
 
 
-class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
+class BookingItemAdapter : PagedListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -63,14 +64,16 @@ class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>())
     }
 
     override fun onBindViewHolder(holder: RvViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = getItem(position)?: return
         getItemViewType(position)
         holder.bindData(item)
     }
 
-    override fun getItemViewType(position: Int) =
-        when (getItem(position)) {
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position) ?: return 0
+        return when (item) {
             is RvItem.BookingItem -> 1
             is RvItem.DateItem -> 2
         }
+    }
 }

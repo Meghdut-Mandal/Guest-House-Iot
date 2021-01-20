@@ -19,10 +19,8 @@ class BookingsFragment : Fragment() {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
     private val bookingItemAdapter by lazy {
-        BookingAdapter2()
+        BookingItemAdapter()
     }
-
-    private lateinit var fastAdapter: FastAdapter<AbstractItem<*>>
 
 
     override fun onCreateView(
@@ -38,12 +36,12 @@ class BookingsFragment : Fragment() {
     }
 
 
-
     override fun onResume() {
         super.onResume()
-//        mainViewModel.stickeyItemLiveData.observe(viewLifecycleOwner) {
-//            bookingItemAdapter.submitList(it)
-//        }
+        println("in.iot.lab.ghouse.ui.main>BookingsFragment>onResume   ")
+        mainViewModel.loadBooking(this).observe(viewLifecycleOwner) {
+            bookingItemAdapter.submitList(it)
+        }
 
         newBookingButton.setOnClickListener {
             findNavController().navigate(R.id.action_bookingsFragment_to_newBooking)
