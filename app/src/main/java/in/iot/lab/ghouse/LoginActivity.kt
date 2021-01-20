@@ -1,9 +1,11 @@
 package `in`.iot.lab.ghouse
 
+import `in`.iot.lab.ghouse.db.LocalDb
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import com.chibatching.kotpref.bulk
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -16,9 +18,8 @@ class LoginActivity : AppCompatActivity() {
     private val IS_LOGGED_IN = "is_logedin"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val isLoggedIn = sharedPreferences.getBoolean(IS_LOGGED_IN, false)
-        if (isLoggedIn){
-           navigateToMainActivity(this)
+        if (LocalDb.isLoggedIn) {
+            navigateToMainActivity(this)
         }
         setContentView(R.layout.activity_login)
     }
@@ -71,8 +72,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(account: GoogleSignInAccount?) {
         val activity = this
-        sharedPreferences.edit {
-            putBoolean(IS_LOGGED_IN, true)
+        LocalDb.bulk {
+            isLoggedIn = true
+            name = account?.displayName ?: "None"
+            email = account?.email ?: "None"
             navigateToMainActivity(activity)
         }
     }
@@ -81,13 +84,6 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
         finish()
-    }
-
-    private val sharedPreferences by lazy {
-        applicationContext.getSharedPreferences(
-            this::class.qualifiedName,
-            0
-        )
     }
 
 

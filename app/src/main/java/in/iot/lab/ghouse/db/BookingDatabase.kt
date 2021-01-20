@@ -111,6 +111,17 @@ class BookingDatabase {
         }
     }
 
+    fun saveRoom(room: Room) = callbackFlow {
+        roomsRef.add(room).addOnSuccessListener {
+            offer(Resource.Success(true))
+        }.addOnFailureListener {
+            offer(Resource.Faliure(it))
+        }
+        awaitClose {
+
+        }
+    }
+
 
 }
 /*

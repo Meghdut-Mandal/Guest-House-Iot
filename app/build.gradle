@@ -63,9 +63,17 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
     implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
     implementation 'com.afollestad.material-dialogs:lifecycle:3.3.0'
+    implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
+
 
 
     implementation 'com.google.firebase:firebase-firestore-ktx:22.0.1'
     implementation "androidx.paging:paging-runtime-ktx:2.1.2"
+
+    //kot pref
+    // optional, support LiveData observable preference
+    implementation 'com.chibatching.kotpref:kotpref:2.13.0'
+    implementation 'com.chibatching.kotpref:livedata-support:2.13.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
 }

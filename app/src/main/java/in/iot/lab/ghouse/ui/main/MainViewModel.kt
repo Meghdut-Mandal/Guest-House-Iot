@@ -8,6 +8,7 @@ import `in`.iot.lab.ghouse.db.BookingDatabase
 import `in`.iot.lab.ghouse.db.Resource
 import `in`.iot.lab.ghouse.db.SampleDB
 import `in`.iot.lab.ghouse.models.Booking
+import `in`.iot.lab.ghouse.models.Room
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
@@ -58,6 +59,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val date = Date().removeTime()
         val tmmrw = (date.time + Util.day).toDate()
         bookingDb.listenToBookings(date to tmmrw,false).collect {
+            emit(it)
+        }
+    }
+
+    fun saveRoom(room: Room)= liveData(Dispatchers.IO) {
+        emit(Resource.Loading)
+        bookingDb.saveRoom(room).collect {
             emit(it)
         }
     }
