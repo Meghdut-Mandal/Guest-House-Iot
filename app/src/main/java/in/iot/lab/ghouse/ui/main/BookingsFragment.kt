@@ -2,6 +2,7 @@ package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.Util.day
+import `in`.iot.lab.ghouse.ui.main.adapters.BookingItemPagingAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

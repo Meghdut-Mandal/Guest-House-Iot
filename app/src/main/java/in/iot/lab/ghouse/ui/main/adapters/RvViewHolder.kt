@@ -1,4 +1,4 @@
-package `in`.iot.lab.ghouse.ui.main
+package `in`.iot.lab.ghouse.ui.main.adapters
 
 import `in`.iot.lab.ghouse.MaterialColorPalette
 import `in`.iot.lab.ghouse.Util.formatDayMonth

@@ -1,16 +1,14 @@
-package `in`.iot.lab.ghouse.ui.main
+package `in`.iot.lab.ghouse.ui.main.adapters
 
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.diffUtil
 import `in`.iot.lab.ghouse.models.RvItem
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagedListAdapter
 
-class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()) {
 
-    var onClickListner: (RvItem) -> Unit = {}
-
+class BookingItemPagingAdapter : PagedListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,7 +26,7 @@ class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>())
     }
 
     override fun onBindViewHolder(holder: RvViewHolder, position: Int) {
-        val item = getItem(position) ?: return
+        val item = getItem(position)?: return
         getItemViewType(position)
         holder.bindData(item)
     }
@@ -41,3 +39,5 @@ class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>())
         }
     }
 }
+
+

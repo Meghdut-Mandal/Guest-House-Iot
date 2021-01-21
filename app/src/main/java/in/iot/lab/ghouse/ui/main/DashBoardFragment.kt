@@ -10,6 +10,8 @@ import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.db.Resource
 import `in`.iot.lab.ghouse.models.PaymentItem
 import `in`.iot.lab.ghouse.models.Room
+import `in`.iot.lab.ghouse.ui.main.adapters.BookingItemAdapter
+import `in`.iot.lab.ghouse.ui.main.adapters.GenericAdapter
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.LayoutMode
