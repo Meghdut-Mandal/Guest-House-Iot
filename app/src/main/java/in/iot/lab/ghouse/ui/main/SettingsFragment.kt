@@ -9,7 +9,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.chibatching.kotpref.bulk
+import kotlinx.android.synthetic.main.edit_profile_layout.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
@@ -35,6 +41,13 @@ class SettingsFragment : Fragment() {
                 navigateToLogin()
             }
         }
+        edit_profile.setOnClickListener {
+            openEditDialog()
+        }
+        edit_image.setOnClickListener {
+            openEditDialog()
+        }
+        loadData()
 
     }
 
@@ -44,9 +57,38 @@ class SettingsFragment : Fragment() {
         requireActivity().finish()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun openEditDialog() {
+        MaterialDialog(requireActivity(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            customView(R.layout.edit_profile_layout, scrollable = true, horizontalPadding = true)
+            title(text = "Edit Profile")
+            getCustomView().apply {
+                phone_number_edittext.setText(LocalDb.phoneNumber)
+                email_edit_text.setText(LocalDb.email)
+                address_edit_text.setText(LocalDb.address)
+                name_eddit_text.setText(LocalDb.name)
+            }
 
+            positiveButton(text = "Save") {
+                it.getCustomView().apply {
+                    LocalDb.bulk {
+                        phoneNumber = phone_number_edittext.text.toString()
+                        email = email_edit_text.text.toString()
+                        address = address_edit_text.text.toString()
+                        name = name_eddit_text.text.toString()
+                        loadData()
+                    }
+                }
+            }
+            negativeButton(text = "Cancel") { }
+        }
+    }
+
+    fun loadData() {
+        name_letter.text = LocalDb.name.toUpperCase()[0] + ""
+        authorName.text = LocalDb.name
+        authorAddress.text = LocalDb.address
+        authorNumber.text = LocalDb.phoneNumber
+        authorEmail.text = LocalDb.email
     }
 
 }
