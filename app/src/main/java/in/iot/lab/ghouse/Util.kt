@@ -1,5 +1,7 @@
 package `in`.iot.lab.ghouse
 
+import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
@@ -46,4 +48,24 @@ object Util {
     }
 
 
+}
+
+
+fun <T : Any> diffUtil(): DiffUtil.ItemCallback<T>{
+    return object : DiffUtil.ItemCallback<T>() {
+        override fun areItemsTheSame(
+            oldItem: T,
+            newItem: T
+        ): Boolean {
+            return oldItem === newItem
+        }
+
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(
+            oldItem: T,
+            newItem: T
+        ): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

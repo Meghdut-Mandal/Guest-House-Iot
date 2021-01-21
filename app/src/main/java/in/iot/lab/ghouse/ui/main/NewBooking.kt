@@ -1,6 +1,7 @@
 package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
+import `in`.iot.lab.ghouse.db.LocalDb
 import `in`.iot.lab.ghouse.db.Resource
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.ui.main.booking.steps.CustomerDetailsStep
@@ -96,7 +97,7 @@ class NewBooking : Fragment(), StepperFormListener {
             duration.first.time,
             duration.second.time,
             customerDetails,
-            "authorx",
+            LocalDb.email,
             roomName,
             payment
         )

@@ -1,5 +1,6 @@
 package `in`.iot.lab.ghouse.ui.main
 
+import `in`.iot.lab.ghouse.diffUtil
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ abstract class AbstractAdapter<T : Any>(
     @LayoutRes val layout: Int,
     val bindData: View.(T, Int) -> Unit
 ) :
-    ListAdapter<T, GenericViewModel>(diffUtil<T>()) {
+    ListAdapter<T, AbstractAdapter.GenericViewModel>(diffUtil<T>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewModel {
         val inflater = LayoutInflater.from(parent.context)
@@ -22,6 +23,6 @@ abstract class AbstractAdapter<T : Any>(
     override fun onBindViewHolder(holder: GenericViewModel, position: Int) {
         holder.itemView.bindData(getItem(position), position)
     }
+    class GenericViewModel(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
 
-class GenericViewModel(itemView: View) : RecyclerView.ViewHolder(itemView)

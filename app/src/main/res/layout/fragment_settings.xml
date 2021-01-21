@@ -8,6 +8,7 @@
     tools:context=".ui.main.SettingsFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/logOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -76,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/authorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -86,13 +87,13 @@
         app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/authorEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="ram.lal@iot.com"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintStart_toStartOf="@+id/authorName"
+        app:layout_constraintTop_toBottomOf="@+id/authorName" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"

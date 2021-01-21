@@ -1,6 +1,6 @@
 package `in`.iot.lab.ghouse.db
 
-import `in`.iot.lab.ghouse.ui.main.RvItem
+import `in`.iot.lab.ghouse.models.RvItem
 import androidx.paging.DataSource
 
 class BookingDataSourceFactory(startTime: Long) : DataSource.Factory<Int, RvItem>() {

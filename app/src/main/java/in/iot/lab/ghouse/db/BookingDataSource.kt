@@ -3,7 +3,7 @@ package `in`.iot.lab.ghouse.db
 import `in`.iot.lab.ghouse.Util.day
 import `in`.iot.lab.ghouse.Util.toDate
 import `in`.iot.lab.ghouse.models.Booking
-import `in`.iot.lab.ghouse.ui.main.RvItem
+import `in`.iot.lab.ghouse.models.RvItem
 import androidx.paging.PageKeyedDataSource
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query

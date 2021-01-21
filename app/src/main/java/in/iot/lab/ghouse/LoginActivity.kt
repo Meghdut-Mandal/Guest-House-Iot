@@ -11,6 +11,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -71,12 +74,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateUI(account: GoogleSignInAccount?) {
-        val activity = this
-        LocalDb.bulk {
-            isLoggedIn = true
-            name = account?.displayName ?: "None"
-            email = account?.email ?: "None"
-            navigateToMainActivity(activity)
+        if (account != null) {
+            val activity = this
+            LocalDb.bulk {
+                isLoggedIn = true
+                name = account.displayName ?: " None"
+                email = account.email ?: "None"
+                navigateToMainActivity(activity)
+            }
+        } else {
+            Snackbar.make(imageView, "Login Failed", Snackbar.LENGTH_LONG).show()
         }
     }
 

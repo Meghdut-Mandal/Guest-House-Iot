@@ -6,9 +6,9 @@ import `in`.iot.lab.ghouse.Util.toDate
 import `in`.iot.lab.ghouse.db.BookingDataSourceFactory
 import `in`.iot.lab.ghouse.db.BookingDatabase
 import `in`.iot.lab.ghouse.db.Resource
-import `in`.iot.lab.ghouse.db.SampleDB
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.Room
+import `in`.iot.lab.ghouse.models.RvItem
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
