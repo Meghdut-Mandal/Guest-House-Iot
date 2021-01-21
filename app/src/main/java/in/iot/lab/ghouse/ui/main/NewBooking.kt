@@ -4,6 +4,7 @@ import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.db.LocalDb
 import `in`.iot.lab.ghouse.db.Resource
 import `in`.iot.lab.ghouse.models.Booking
+import `in`.iot.lab.ghouse.models.Request
 import `in`.iot.lab.ghouse.ui.main.booking.steps.CustomerDetailsStep
 import `in`.iot.lab.ghouse.ui.main.booking.steps.DurationStep
 import `in`.iot.lab.ghouse.ui.main.booking.steps.PaymentDetailsStep
@@ -57,9 +58,6 @@ class NewBooking : Fragment(), StepperFormListener {
 
     override fun onResume() {
         super.onResume()
-        mainViewModel.freeRoomLiveData.observe(viewLifecycleOwner) {
-            roomStep.setUpRooms(it)
-        }
         progressBar.isIndeterminate = true
 
         progressBar.isVisible = false
@@ -108,6 +106,7 @@ class NewBooking : Fragment(), StepperFormListener {
                     progressBar.isVisible = true
                 }
                 is Resource.Success<*> -> {
+                    mainViewModel.requestLiveData.postValue(Request.ReloadViewModel)
                     findNavController().navigate(R.id.action_newBooking_to_bookingsFragment)
                 }
                 is Resource.Faliure -> {

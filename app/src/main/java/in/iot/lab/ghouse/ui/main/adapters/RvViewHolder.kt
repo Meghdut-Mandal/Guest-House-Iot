@@ -13,7 +13,7 @@ sealed class RvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     abstract fun bindData(rvItem: RvItem)
     abstract var onClickListner: (RvItem) -> Unit
 
-    class BookingItemViewHolder(itemView: View) : RvViewHolder(itemView) {
+    class BookingItemViewHolder(itemView: View, override var onClickListner: (RvItem) -> Unit) : RvViewHolder(itemView) {
 
         override fun bindData(rvItem: RvItem) {
             val bookingItem = rvItem as RvItem.BookingItem
@@ -25,10 +25,10 @@ sealed class RvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
         }
 
-        override var onClickListner: (RvItem) -> Unit = {}
+
     }
 
-    class DateItemViewHolder(itemView: View) : RvViewHolder(itemView) {
+    class DateItemViewHolder(itemView: View, override var onClickListner: (RvItem) -> Unit) : RvViewHolder(itemView) {
 
         override fun bindData(rvItem: RvItem) {
             val dateItem = rvItem as RvItem.DateItem
@@ -44,7 +44,6 @@ sealed class RvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
         }
 
-        override var onClickListner: (RvItem) -> Unit = {}
     }
 }
 

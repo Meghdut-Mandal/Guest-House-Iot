@@ -2,6 +2,8 @@ package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.Util.day
+import `in`.iot.lab.ghouse.models.Request
+import `in`.iot.lab.ghouse.models.RvItem
 import `in`.iot.lab.ghouse.ui.main.adapters.BookingItemPagingAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,19 +35,35 @@ class BookingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bookingsList.layoutManager = GridLayoutManager(context, 1)
         bookingsList.adapter = bookingItemAdapter
+        bookingItemAdapter.onClickListener = ::previewItem
+        newBookingButton.setOnClickListener {
+            findNavController().navigate(R.id.action_bookingsFragment_to_newBooking)
+        }
+        mainViewModel.requestLiveData.observe(viewLifecycleOwner){
+            if (it is Request.ReloadViewModel){
+                reload()
+            }
+        }
+    }
+
+    private fun reload() {
+        mainViewModel.loadBooking(this, Date().time - 30 * day).observe(viewLifecycleOwner) {
+            bookingItemAdapter.submitList(it)
+        }
+    }
+
+    private fun previewItem(rvItem: RvItem) {
+        if (rvItem is RvItem.BookingItem) {
+            mainViewModel.selectedBooking.postValue(rvItem.booking)
+            findNavController().navigate(R.id.action_bookingsFragment_to_bookingDetailsFragment)
+        }
     }
 
 
     override fun onResume() {
         super.onResume()
         println("in.iot.lab.ghouse.ui.main>BookingsFragment>onResume   ")
-        mainViewModel.loadBooking(this, Date().time - 30 * day).observe(viewLifecycleOwner) {
-            bookingItemAdapter.submitList(it)
-        }
 
-        newBookingButton.setOnClickListener {
-            findNavController().navigate(R.id.action_bookingsFragment_to_newBooking)
-        }
 
     }
 

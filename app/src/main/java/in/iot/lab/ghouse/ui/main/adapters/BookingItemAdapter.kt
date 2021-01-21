@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 
 class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()) {
 
-    var onClickListner: (RvItem) -> Unit = {}
+    var onClickListener: (RvItem) -> Unit = {}
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {
@@ -17,11 +17,11 @@ class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>())
         return when (viewType) {
             1 -> {
                 val inflatedView = inflater.inflate(R.layout.room_item, null, false)
-                RvViewHolder.BookingItemViewHolder(inflatedView)
+                RvViewHolder.BookingItemViewHolder(inflatedView,onClickListener)
             }
             else -> {
                 val inflatedView = inflater.inflate(R.layout.date_header, null, false)
-                RvViewHolder.DateItemViewHolder(inflatedView)
+                RvViewHolder.DateItemViewHolder(inflatedView,onClickListener)
             }
         }
 

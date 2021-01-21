@@ -10,16 +10,19 @@ import androidx.paging.PagedListAdapter
 
 class BookingItemPagingAdapter : PagedListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()){
 
+    var onClickListener: (RvItem) -> Unit = {}
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             1 -> {
                 val inflatedView = inflater.inflate(R.layout.room_item, null, false)
-                RvViewHolder.BookingItemViewHolder(inflatedView)
+                RvViewHolder.BookingItemViewHolder(inflatedView,onClickListener)
             }
             else -> {
                 val inflatedView = inflater.inflate(R.layout.date_header, null, false)
-                RvViewHolder.DateItemViewHolder(inflatedView)
+                RvViewHolder.DateItemViewHolder(inflatedView,onClickListener)
             }
         }
 
