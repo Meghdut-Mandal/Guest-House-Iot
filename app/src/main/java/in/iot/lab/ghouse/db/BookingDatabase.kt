@@ -145,9 +145,3 @@ class BookingDatabase {
 
 
 }
-/*
-Added Preet to Speed up Devlopement,40% work left on frontend ,
-API's completed ;
-13th jan Moving to FIreBase Firestore , due to issues with hosting
-Blockers: Preet is having his inter
- */
