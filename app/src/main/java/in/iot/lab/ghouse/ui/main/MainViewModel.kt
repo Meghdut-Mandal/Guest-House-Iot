@@ -1,6 +1,6 @@
 package `in`.iot.lab.ghouse.ui.main
 
-import `in`.iot.lab.ghouse.Util
+import `in`.iot.lab.ghouse.Util.day
 import `in`.iot.lab.ghouse.Util.removeTime
 import `in`.iot.lab.ghouse.Util.toDate
 import `in`.iot.lab.ghouse.db.BookingDataSourceFactory
@@ -53,24 +53,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-
     fun loadActiveRooms() = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
         val date = Date().removeTime()
-        val tmmrw = (date.time + Util.day).toDate()
-        bookingDb.listenToBookings(date to tmmrw,false).collect {
+        val tmmrw = (date.time + day).toDate()
+        bookingDb.listenToBookingsItems(date to tmmrw, false).collect {
             emit(it)
         }
     }
 
-    fun saveRoom(room: Room)= liveData(Dispatchers.IO) {
+    fun saveRoom(room: Room) = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
         bookingDb.saveRoom(room).collect {
             emit(it)
         }
     }
 
-    fun loadPayments() {
+    fun loadPayments() = liveData(Dispatchers.IO) {
+        emit(Resource.Loading)
+        val date = (Date().removeTime().time - day*5).toDate()
+        val tmmrw = (date.time + day*5).toDate()
+        bookingDb.listenToBookings(date to tmmrw, false).collect {
+            emit(it)
+        }
     }
 
 

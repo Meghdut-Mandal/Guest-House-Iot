@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.db.Resource
+import `in`.iot.lab.ghouse.models.PaymentItem
 import `in`.iot.lab.ghouse.models.Room
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import kotlinx.android.synthetic.main.new_room.view.*
+import kotlinx.android.synthetic.main.payment_item.view.*
 
 class DashBoardFragment : Fragment() {
 
@@ -33,6 +35,15 @@ class DashBoardFragment : Fragment() {
         BookingItemAdapter()
     }
 
+    private fun bindData(view: View, paymentItem: PaymentItem, position: Int) {
+        view.room_code_.text = paymentItem.roomCode
+        view.payment_method.text = paymentItem.payment.paymentMethod
+        view.ammount.text = paymentItem.payment.info
+    }
+
+    private val paymentAdapter = GenericAdapter(R.layout.payment_item, ::bindData)
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +51,8 @@ class DashBoardFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
         view.activeBookings.layoutManager = GridLayoutManager(context, 1)
         view.activeBookings.adapter = adapter
+        view.paymentsRecyclerView.layoutManager = GridLayoutManager(context, 1)
+        view.paymentsRecyclerView.adapter = paymentAdapter
         return view
     }
 
@@ -63,7 +76,23 @@ class DashBoardFragment : Fragment() {
                 }
             }
         }
-        mainViewModel.loadPayments()
+        mainViewModel.loadPayments().observe(viewLifecycleOwner){
+            when(it){
+                Resource.Loading->{
+                    dashboard_progress.isVisible = true
+                }
+                is Resource.Success -> {
+                    dashboard_progress.isVisible = false
+                    paymentAdapter.submitList(it.value.map { PaymentItem(it.room!!,it.payment!!) })
+                }
+                is Resource.Faliure -> {
+                    dashboard_progress.isVisible = false
+                    Snackbar.make(dashboard_progress, "Error In loading !!", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+            }
+
+        }
         add_room_cardview.setOnClickListener {
             showAddRoom()
         }

@@ -100,6 +100,26 @@ class BookingDatabase {
                     val mainList = value?.toObjects(Booking::class.java) ?: listOf()
                     val list =
                         if (checkEndTime) mainList.filter { it.endTime <= duration.second.time } else mainList
+                    offer(Resource.Success(list))
+                }
+            }
+
+        awaitClose {
+            addSnapshotListener.remove()
+        }
+    }
+
+    fun listenToBookingsItems(duration: Pair<Date, Date>, checkEndTime: Boolean = true) = callbackFlow {
+        val addSnapshotListener = bookingRef
+            .whereGreaterThanOrEqualTo("startTime", duration.first.time)
+            .whereLessThanOrEqualTo("startTime", duration.second.time)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    offer(Resource.Faliure(error))
+                } else {
+                    val mainList = value?.toObjects(Booking::class.java) ?: listOf()
+                    val list =
+                        if (checkEndTime) mainList.filter { it.endTime <= duration.second.time } else mainList
                     val items =
                         list.map { RvItem.BookingItem(it, it.startTime) }.sortedBy { it.id }
                     offer(Resource.Success(items))
@@ -121,8 +141,6 @@ class BookingDatabase {
 
         }
     }
-
-
 
 
 

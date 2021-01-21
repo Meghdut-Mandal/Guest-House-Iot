@@ -8,11 +8,11 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class AbstractAdapter<T : Any>(
+class GenericAdapter<T : Any>(
     @LayoutRes val layout: Int,
     val bindData: View.(T, Int) -> Unit
 ) :
-    ListAdapter<T, AbstractAdapter.GenericViewModel>(diffUtil<T>()) {
+    ListAdapter<T, GenericAdapter.GenericViewModel>(diffUtil<T>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewModel {
         val inflater = LayoutInflater.from(parent.context)
