@@ -67,7 +67,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="@+id/cardView"
-        app:srcCompat="@drawable/ic_baseline_edit_24" />
+        app:srcCompat="@drawable/ic_baseline_edit_black" />
 
     <ImageView
         android:id="@+id/editEndDate"
@@ -77,5 +77,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/cardView2"
         app:layout_constraintStart_toEndOf="@+id/cardView2"
         app:layout_constraintTop_toTopOf="@+id/cardView2"
-        app:srcCompat="@drawable/ic_baseline_edit_24" />
+        app:srcCompat="@drawable/ic_baseline_edit_black" />
 </androidx.constraintlayout.widget.ConstraintLayout>

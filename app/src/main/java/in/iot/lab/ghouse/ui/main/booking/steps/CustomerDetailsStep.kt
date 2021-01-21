@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.step_customer_layout.view.*
 
 class CustomerDetailsStep : Step<Customer>("Customer Details") {
 
-    val customerDetails = Customer()
+    private val customerDetails = Customer()
 
     override fun getStepData() = customerDetails
 

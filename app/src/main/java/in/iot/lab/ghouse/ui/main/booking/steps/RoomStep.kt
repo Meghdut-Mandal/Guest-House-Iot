@@ -8,9 +8,9 @@ import ernestoyaquello.com.verticalstepperform.Step
 import kotlinx.android.synthetic.main.step_room_layout.view.*
 
 class RoomStep : Step<String>("Room ") {
-    var currentRoomCode = ""
+    private var currentRoomCode = ""
     val roomCodes = arrayListOf<String>()
-    var chipGroup: com.google.android.material.chip.ChipGroup? = null
+    private var chipGroup: com.google.android.material.chip.ChipGroup? = null
 
 
     override fun getStepData(): String = currentRoomCode

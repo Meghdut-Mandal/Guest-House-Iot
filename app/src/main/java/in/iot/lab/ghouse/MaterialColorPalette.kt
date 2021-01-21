@@ -8,25 +8,25 @@ import kotlin.random.Random.Default.nextLong
 
 class MaterialColorPalette(primary: Int) {
     companion object {
-        const val RED_500 = -0xbbcca
-        const val PINK_500 = -0x16e19d
-        const val PURPLE_500 = -0x63d850
-        const val DEEP_PURPLE_500 = -0x98c549
-        const val INDIGO_500 = -0xc0ae4b
-        const val BLUE_500 = -0xde690d
-        const val LIGHT_BLUE_500 = -0xfc560c
-        const val CYAN_500 = -0xff432c
-        const val TEAL_500 = -0xff6978
-        const val GREEN_500 = -0xb350b0
-        const val LIGHT_GREEN_500 = -0x743cb6
-        const val LIME_500 = -0x3223c7
-        const val YELLOW_500 = -0x14c5
-        const val AMBER_500 = -0x3ef9
-        const val ORANGE_500 = -0x6800
-        const val DEEP_ORANGE_500 = -0xa8de
-        const val BROWN_500 = -0x86aab8
-        const val GREY_500 = -0x616162
-        const val BLUE_GREY_500 = -0x9f8275
+        private const val RED_500 = -0xbbcca
+        private const val PINK_500 = -0x16e19d
+        private const val PURPLE_500 = -0x63d850
+        private const val DEEP_PURPLE_500 = -0x98c549
+        private const val INDIGO_500 = -0xc0ae4b
+        private const val BLUE_500 = -0xde690d
+        private const val LIGHT_BLUE_500 = -0xfc560c
+        private const val CYAN_500 = -0xff432c
+        private const val TEAL_500 = -0xff6978
+        private const val GREEN_500 = -0xb350b0
+        private const val LIGHT_GREEN_500 = -0x743cb6
+        private const val LIME_500 = -0x3223c7
+        private const val YELLOW_500 = -0x14c5
+        private const val AMBER_500 = -0x3ef9
+        private const val ORANGE_500 = -0x6800
+        private const val DEEP_ORANGE_500 = -0xa8de
+        private const val BROWN_500 = -0x86aab8
+        private const val GREY_500 = -0x616162
+        private const val BLUE_GREY_500 = -0x9f8275
         private val MATERIAL_PALETTES: MutableList<MaterialColorPalette>
 
         fun getRandomColor(key: String?, seed: Long) =
@@ -60,7 +60,7 @@ class MaterialColorPalette(primary: Int) {
          * @return new shaded color
          * @see .shadeColor
          */
-        fun shadeColor(color: String, percent: Double): Int {
+        private fun shadeColor(color: String, percent: Double): Int {
             // based off http://stackoverflow.com/a/13542669/1048340
             val f = color.substring(1).toLong(16)
             val t: Double = if (percent < 0) 0.0 else 255.toDouble()

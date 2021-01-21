@@ -23,7 +23,7 @@ import java.util.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    //    val freeRoomLiveData = MutableLiveData<List<String>>()
+
     private val bookingDb = BookingDatabase()
     private val config = PagedList.Config.Builder().setPageSize(10).build()
     private var bookingLiveData: LiveData<PagedList<RvItem>>? = null

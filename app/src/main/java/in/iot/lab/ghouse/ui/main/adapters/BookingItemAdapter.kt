@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 
 class BookingItemAdapter : ListAdapter<RvItem, RvViewHolder>(diffUtil<RvItem>()) {
 
-    var onClickListener: (RvItem) -> Unit = {}
+    private var onClickListener: (RvItem) -> Unit = {}
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvViewHolder {

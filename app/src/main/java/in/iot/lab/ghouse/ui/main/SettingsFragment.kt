@@ -83,7 +83,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    fun loadData() {
+    private fun loadData() {
         name_letter.text = LocalDb.name.toUpperCase()[0] + ""
         authorName.text = LocalDb.name
         authorAddress.text = LocalDb.address

@@ -11,9 +11,9 @@ object SampleDB  {
     private val roomList = (10..30).map { Room("$it", "10$it", "") }
     private val customerList =
         (1..9).map { Customer(names.randomElement(), "2323232323") }
-    val bookingList by lazy { getBooking() }
+    private val bookingList by lazy { getBooking() }
     private val paymentTypes = arrayListOf("UPI", "Cash", "None")
-    val paymentsList = (1..10).map {
+    private val paymentsList = (1..10).map {
         Payment(
             paymentTypes.randomElement(),
             Random.nextDouble(100.0, 1000.0).toString()
@@ -40,7 +40,7 @@ object SampleDB  {
             }.toMutableList()
     }
 
-     fun getBookings(startTime: Long, endTime: Long): List<Booking> {
+     private fun getBookings(startTime: Long, endTime: Long): List<Booking> {
         return bookingList.filter { it.startTime >= startTime && endTime <= endTime }
     }
 

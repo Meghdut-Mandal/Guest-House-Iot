@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_bookings.*
 import java.util.*
 
 class BookingsFragment : Fragment() {
-    val mainViewModel by lazy {
+    private val mainViewModel by lazy {
         ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
     private val bookingItemAdapter by lazy {
@@ -47,7 +47,7 @@ class BookingsFragment : Fragment() {
     }
 
     private fun reload() {
-        mainViewModel.loadBooking(this, Date().time - 30 * day).observe(viewLifecycleOwner) {
+        mainViewModel.loadBooking(this, Date().time - 5 * day).observe(viewLifecycleOwner) {
             bookingItemAdapter.submitList(it)
         }
     }

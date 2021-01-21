@@ -60,7 +60,7 @@ class BookingDatabase {
     }
 
 
-    fun getRooms() = callbackFlow {
+    private fun getRooms() = callbackFlow {
         roomsRef.get().addOnSuccessListener {
             val toObjects = it.toObjects(Room::class.java)
             offer(Resource.Success(toObjects))
@@ -72,7 +72,7 @@ class BookingDatabase {
         }
     }
 
-    fun getBookings(duration: Pair<Date, Date>) = callbackFlow {
+    private fun getBookings(duration: Pair<Date, Date>) = callbackFlow {
         bookingRef
             .whereGreaterThanOrEqualTo("startTime", duration.first.time)
             .whereLessThanOrEqualTo("startTime", duration.second.time)
