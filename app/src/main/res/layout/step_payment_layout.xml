@@ -29,6 +29,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/advanceAmount"
             android:layout_width="match_parent"
+            android:inputType="number"
             android:layout_height="wrap_content"
             android:background="#00FFFFFF" />
 
@@ -49,6 +50,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/remainingPayment"
             android:layout_width="match_parent"
+            android:inputType="number"
             android:layout_height="wrap_content"
             android:background="#00FFFFFF" />
 
