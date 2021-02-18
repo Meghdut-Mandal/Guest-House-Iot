@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/base_nav"
+    app:startDestination="@id/bookingsFragment">
+
+    <fragment
+        android:id="@+id/newBooking"
+        android:name="in.iot.lab.ghouse.ui.main.NewBooking"
+        android:label="fragment_new_booking"
+        tools:layout="@layout/fragment_new_booking" >
+        <action
+            android:id="@+id/action_newBooking_to_bookingsFragment"
+            app:destination="@id/bookingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="in.iot.lab.ghouse.ui.main.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/bookingsFragment"
+        android:name="in.iot.lab.ghouse.ui.main.BookingsFragment"
+        android:label="fragment_bookings"
+        tools:layout="@layout/fragment_bookings" >
+
+        <action
+            android:id="@+id/action_bookingsFragment_to_newBooking"
+            app:destination="@id/newBooking" />
+        <action
+            android:id="@+id/action_bookingsFragment_to_bookingDetailsFragment"
+            app:destination="@id/bookingDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_utils"
+        android:name="in.iot.lab.ghouse.ui.main.DashBoardFragment"
+        android:label="fragment_utils"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_fragment_utils_to_bookingDetailsFragment"
+            app:destination="@id/bookingDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingDetailsFragment"
+        android:name="in.iot.lab.ghouse.ui.main.BookingDetailsFragment"
+        android:label="fragment_booking_details"
+        tools:layout="@layout/fragment_booking_details" />
+</navigation>

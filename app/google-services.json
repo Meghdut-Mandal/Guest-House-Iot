@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "743840759965",
+    "project_id": "guest-house-d7526",
+    "storage_bucket": "guest-house-d7526.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743840759965:android:ab3c13335620326f0b9474",
+        "android_client_info": {
+          "package_name": "in.iot.lab.ghouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743840759965-5thp11pk55rkatbapu3hqsn1mqbrncbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvtHzaZVDR-4V6PZGIQuqdfoY-aHIWFfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743840759965-5thp11pk55rkatbapu3hqsn1mqbrncbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
