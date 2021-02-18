@@ -2,7 +2,10 @@
 
 package `in`.iot.lab.ghouse.models
 
+import androidx.annotation.Keep
 
+
+@Keep
 data class Booking(
     val id: String,
     val startTime: Long,
