@@ -1,5 +1,8 @@
 package `in`.iot.lab.ghouse.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class Payment(
         val paymentMethod: String,
         val paymentAdvance: Int,
@@ -9,11 +12,3 @@ data class Payment(
 }
 
 
-//package `in`.iot.lab.ghouse.models
-//
-//data class Payment(
-//    val paymentMethod: String,
-//    val info: String
-//) {
-//    constructor() : this("", "")
-//}

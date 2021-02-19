@@ -2,8 +2,6 @@ package `in`.iot.lab.ghouse.ui.main.booking.steps
 
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.models.Customer
-import `in`.iot.lab.ghouse.models.CustomerDetails
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.widget.doOnTextChanged
