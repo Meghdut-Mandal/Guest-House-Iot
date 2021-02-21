@@ -11,7 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-class BookingDataSource(val startTime: Long) : PageKeyedDataSource<Int, RvItem>() {
+class BookingDataSource(startTime: Long) : PageKeyedDataSource<Int, RvItem>() {
 
     private var initialQuery: Query
     private var lastVisible: DocumentSnapshot? = null
@@ -21,12 +21,11 @@ class BookingDataSource(val startTime: Long) : PageKeyedDataSource<Int, RvItem>(
     private val itemsPerPage = 50L
 
     init {
-        if (startTime > 0) {
-            initialQuery = bookingRef.whereGreaterThanOrEqualTo("startTime", startTime)
+        initialQuery = if (startTime > 0) {
+            bookingRef.whereGreaterThanOrEqualTo("startTime", startTime)
                 .orderBy("startTime", Query.Direction.ASCENDING).limit(itemsPerPage)
         } else {
-            initialQuery =
-                bookingRef.orderBy("startTime", Query.Direction.ASCENDING).limit(itemsPerPage)
+            bookingRef.orderBy("startTime", Query.Direction.ASCENDING).limit(itemsPerPage)
         }
     }
 
