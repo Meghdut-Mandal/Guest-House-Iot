@@ -8,6 +8,6 @@ sealed class Resource<out R> {
 
     class Success<out T>(val value: T) : Resource<T>()
 
-    class Faliure(val exception: Exception) : Resource<Nothing>()
+    class Failure(val exception: Exception) : Resource<Nothing>()
 
 }

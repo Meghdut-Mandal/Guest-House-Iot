@@ -23,7 +23,7 @@ class BookingDatabase {
         bookingRef.add(booking).addOnSuccessListener {
             offer(Resource.Success(it))
         }.addOnFailureListener {
-            offer(Resource.Faliure(it))
+            offer(Resource.Failure(it))
         }
         awaitClose {
 
@@ -33,14 +33,14 @@ class BookingDatabase {
 
     fun getFreeRoom(duration: Pair<Date, Date>) = callbackFlow {
         getRooms().collect { roomResource ->
-            if (roomResource is Resource.Faliure) {
+            if (roomResource is Resource.Failure) {
                 offer(roomResource)
             }
             val rooms = (roomResource as Resource.Success<List<Room>>).value.map { it.roomCode }
             println("in.iot.lab.ghouse.db>BookingDatabase>getFreeRoom  Founf roooms $rooms ")
             getBookings(duration).collect { bookingResource ->
                 when (bookingResource) {
-                    is Resource.Faliure -> {
+                    is Resource.Failure -> {
                         offer(bookingResource)
                     }
                     is Resource.Success -> {
@@ -49,6 +49,7 @@ class BookingDatabase {
                         val freeRooms = rooms.filterNot { bookedRooms.contains(it) }
                         offer(Resource.Success(freeRooms))
                     }
+
                 }
 
             }
@@ -65,7 +66,7 @@ class BookingDatabase {
             val toObjects = it.toObjects(Room::class.java)
             offer(Resource.Success(toObjects))
         }.addOnFailureListener {
-            offer(Resource.Faliure(it))
+            offer(Resource.Failure(it))
         }
         awaitClose {
 
@@ -74,14 +75,13 @@ class BookingDatabase {
 
     private fun getBookings(duration: Pair<Date, Date>) = callbackFlow {
         bookingRef
-            .whereGreaterThanOrEqualTo("startTime", duration.first.time)
             .whereLessThanOrEqualTo("startTime", duration.second.time)
+            .whereGreaterThanOrEqualTo("startTime", duration.first.time)
             .get().addOnSuccessListener {
                 val mainList = it.toObjects(Booking::class.java)
-                val list = mainList.filter { it.endTime <= duration.second.time }
-                offer(Resource.Success(list))
+                offer(Resource.Success(mainList))
             }.addOnFailureListener {
-                offer(Resource.Faliure(it))
+                offer(Resource.Failure(it))
             }
         awaitClose {
 
@@ -91,11 +91,11 @@ class BookingDatabase {
 
     fun listenToBookings(duration: Pair<Date, Date>, checkEndTime: Boolean = true) = callbackFlow {
         val addSnapshotListener = bookingRef
-            .whereGreaterThanOrEqualTo("startTime", duration.first.time)
             .whereLessThanOrEqualTo("startTime", duration.second.time)
+            .whereGreaterThanOrEqualTo("startTime", duration.first.time)
             .addSnapshotListener { value, error ->
                 if (error != null) {
-                    offer(Resource.Faliure(error))
+                    offer(Resource.Failure(error))
                 } else {
                     val mainList = value?.toObjects(Booking::class.java) ?: listOf()
                     val list =
@@ -115,7 +115,7 @@ class BookingDatabase {
             .whereLessThanOrEqualTo("startTime", duration.second.time)
             .addSnapshotListener { value, error ->
                 if (error != null) {
-                    offer(Resource.Faliure(error))
+                    offer(Resource.Failure(error))
                 } else {
                     val mainList = value?.toObjects(Booking::class.java) ?: listOf()
                     val list =
@@ -135,7 +135,7 @@ class BookingDatabase {
         roomsRef.add(room).addOnSuccessListener {
             offer(Resource.Success(true))
         }.addOnFailureListener {
-            offer(Resource.Faliure(it))
+            offer(Resource.Failure(it))
         }
         awaitClose {
 

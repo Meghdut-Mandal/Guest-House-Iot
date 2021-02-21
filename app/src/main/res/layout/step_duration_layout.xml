@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="14 . 5 . 2020" />
+            tools:text="14 . 5 . 2020" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="18 . 5 . 2020" />
+            tools:text="18 . 5 . 2020" />
     </androidx.cardview.widget.CardView>
 
     <ImageView

@@ -4,6 +4,8 @@ import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.Util
 import `in`.iot.lab.ghouse.Util.format
 import `in`.iot.lab.ghouse.Util.formatDayMonth
+import `in`.iot.lab.ghouse.Util.hour
+import `in`.iot.lab.ghouse.Util.removeTime
 import android.view.LayoutInflater
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
@@ -24,7 +26,7 @@ class DurationStep : Step<Pair<Date, Date>>("Duration of Stay ") {
     }
 
     override fun getStepDataAsHumanReadableString(): String {
-        return dates.first.format("dd.mm.yyyy") + " to " + dates.second.formatDayMonth()
+        return dates.first.formatDayMonth() + " to " + dates.second.formatDayMonth()
     }
 
     override fun restoreStepData(data: Pair<Date, Date>) {
@@ -32,7 +34,7 @@ class DurationStep : Step<Pair<Date, Date>>("Duration of Stay ") {
     }
 
     override fun isStepDataValid(stepData: Pair<Date, Date>): IsDataValid {
-        if (stepData.first.before(stepData.second) && (stepData.second.time - stepData.first.time) > Util.day) {
+        if (stepData.first.before(stepData.second) ) {
             return IsDataValid(true)
         }
         return IsDataValid(false)
@@ -43,22 +45,24 @@ class DurationStep : Step<Pair<Date, Date>>("Duration of Stay ") {
         val layout = inflater.inflate(R.layout.step_duration_layout, null, false)
         layout.editStartDate.setOnClickListener {
             MaterialDialog(context).show {
-                datePicker(  minDate = Calendar.getInstance()) { dialog, calendar ->
-                    dates = calendar.time to dates.second
-                    layout.startDateField.text=calendar.time.format("dd.MM.yy")
+                datePicker(minDate = Calendar.getInstance()) { dialog, calendar ->
+                    dates = calendar.time.removeTime() to dates.second
+                    layout.startDateField.text = calendar.time.format("dd.MM.yy")
                     markAsCompletedOrUncompleted(true)
 
                 }
             }
         }
+        layout.startDateField.text = Calendar.getInstance().time.format("dd.MM.yy")
+        layout.endDateField.text = Calendar.getInstance().time.format("dd.MM.yy")
 
         layout.editEndDate.setOnClickListener {
             MaterialDialog(context).show {
                 datePicker(
-                     minDate = Calendar.getInstance()
+                    minDate = Calendar.getInstance()
                 ) { dialog, calendar ->
-                    dates = dates.first to calendar.time
-                    layout.endDateField.text=calendar.time.format("dd.MM.yy")
+                    dates = dates.first to calendar.time.removeTime()
+                    layout.endDateField.text = calendar.time.format("dd.MM.yy")
                     markAsCompletedOrUncompleted(true)
 
                 }

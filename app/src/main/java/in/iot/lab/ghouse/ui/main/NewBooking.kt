@@ -1,6 +1,7 @@
 package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
+import `in`.iot.lab.ghouse.Util.removeTime
 import `in`.iot.lab.ghouse.db.LocalDb
 import `in`.iot.lab.ghouse.db.Resource
 import `in`.iot.lab.ghouse.models.Booking
@@ -21,7 +22,6 @@ import com.google.android.material.snackbar.Snackbar
 import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener
 import kotlinx.android.synthetic.main.fragment_new_booking.*
 import kotlinx.android.synthetic.main.fragment_new_booking.view.*
-import java.lang.Exception
 import java.util.*
 
 
@@ -64,7 +64,8 @@ class NewBooking : Fragment(), StepperFormListener {
     }
 
     private fun loadRooms(duration: Pair<Date, Date>) {
-        mainViewModel.loadFreeRooms(duration).observe(this) {
+        val newDuration=duration.first.removeTime() to duration.second.removeTime()
+        mainViewModel.loadFreeRooms(newDuration).observe(this) {
             when (it) {
                 Resource.Loading -> {
                     roomStep.setUpRooms(listOf())
@@ -75,7 +76,7 @@ class NewBooking : Fragment(), StepperFormListener {
                     val room = it as Resource.Success<List<String>>
                     roomStep.setUpRooms(room.value)
                 }
-                is Resource.Faliure -> {
+                is Resource.Failure -> {
                     progressBar.isVisible = false
 
                     error("Failed to Load rooms")
@@ -109,7 +110,7 @@ class NewBooking : Fragment(), StepperFormListener {
                     mainViewModel.requestLiveData.postValue(Request.ReloadViewModel)
                     findNavController().navigate(R.id.action_newBooking_to_bookingsFragment)
                 }
-                is Resource.Faliure -> {
+                is Resource.Failure -> {
                     progressBar.isVisible = false
                     error("Failed to add Booking!")
                 }

@@ -24,6 +24,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import kotlinx.android.synthetic.main.new_room.view.*
 import kotlinx.android.synthetic.main.payment_item.view.*
+import kotlinx.android.synthetic.main.search_number.view.*
 
 class DashBoardFragment : Fragment() {
 
@@ -40,7 +41,7 @@ class DashBoardFragment : Fragment() {
     private fun bindData(view: View, paymentItem: PaymentItem, position: Int) {
         view.room_code_.text = paymentItem.roomCode
         view.payment_method.text = paymentItem.payment.paymentMethod
-        view.ammount.text = paymentItem.payment.paymentRemaining.toString()
+        view.ammount.text = paymentItem.payment.paymentAdvance.toString()
     }
 
     private val paymentAdapter = GenericAdapter(R.layout.payment_item, ::bindData)
@@ -71,7 +72,7 @@ class DashBoardFragment : Fragment() {
                     dashboard_progress.isVisible = false
                     adapter.submitList(it.value)
                 }
-                is Resource.Faliure -> {
+                is Resource.Failure -> {
                     dashboard_progress.isVisible = false
                     Snackbar.make(dashboard_progress, "Error In loading !!", Snackbar.LENGTH_LONG)
                         .show()
@@ -87,7 +88,7 @@ class DashBoardFragment : Fragment() {
                     dashboard_progress.isVisible = false
                     paymentAdapter.submitList(it.value.map { PaymentItem(it.room!!,it.payment!!) })
                 }
-                is Resource.Faliure -> {
+                is Resource.Failure -> {
                     dashboard_progress.isVisible = false
                     Snackbar.make(dashboard_progress, "Error In loading !!", Snackbar.LENGTH_LONG)
                         .show()
@@ -100,6 +101,19 @@ class DashBoardFragment : Fragment() {
         }
 
 
+    }
+
+
+    private fun showSearchNumber(){
+        MaterialDialog(requireActivity(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            customView(R.layout.search_number, scrollable = true, horizontalPadding = true)
+            title(text = "Search by Phone Number")
+            positiveButton(text = "Search") {
+                val view = it.getCustomView()
+                val phoneNumber = view.phone_number_edittext.text
+            }
+            negativeButton(text = "Cancel") { }
+        }
     }
 
     private fun showAddRoom() {
@@ -117,7 +131,7 @@ class DashBoardFragment : Fragment() {
                             Snackbar.make(view, "Room Saved !", Snackbar.LENGTH_SHORT)
                                 .show()
                         }
-                        is Resource.Faliure -> {
+                        is Resource.Failure -> {
                             Snackbar.make(
                                 view,
                                 "Unable to Save room!",
