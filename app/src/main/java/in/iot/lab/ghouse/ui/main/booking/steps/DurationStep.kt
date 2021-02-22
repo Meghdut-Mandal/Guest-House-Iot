@@ -17,7 +17,7 @@ import java.util.*
 
 class DurationStep : Step<Pair<Date, Date>>("Duration of Stay ") {
 
-    var dates = Date() to Date()
+    var dates = Date().removeTime() to Date().removeTime()
 
     var onDurationDone: (Pair<Date, Date>) -> Unit = {}
 

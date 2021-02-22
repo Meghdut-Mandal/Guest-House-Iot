@@ -2,6 +2,7 @@ package `in`.iot.lab.ghouse.ui.main
 
 import `in`.iot.lab.ghouse.R
 import `in`.iot.lab.ghouse.db.Resource
+import `in`.iot.lab.ghouse.models.RvItem
 import `in`.iot.lab.ghouse.ui.main.adapters.BookingItemAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -38,6 +40,17 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         search_items.layoutManager = GridLayoutManager(context, 1)
         search_items.adapter = adapter
+        adapter.onClickListener=::previewItem
+        search_toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun previewItem(rvItem: RvItem) {
+        if (rvItem is RvItem.BookingItem) {
+            mainViewModel.selectedBooking.postValue(rvItem.booking)
+            findNavController().navigate(R.id.action_searchFragment_to_bookingDetailsFragment)
+        }
     }
 
     override fun onResume() {
