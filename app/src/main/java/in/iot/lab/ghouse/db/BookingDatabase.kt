@@ -88,6 +88,21 @@ class BookingDatabase {
         }
     }
 
+    fun getBookings(phoneNumber:String) = callbackFlow {
+        bookingRef
+            .whereEqualTo("customer.phoneNumber",phoneNumber)
+            .get().addOnSuccessListener {
+                val sortedBy =
+                    it.toObjects(Booking::class.java).map { RvItem.BookingItem(it, it.startTime) }.sortedBy { it.id }
+                offer(Resource.Success(sortedBy))
+            }.addOnFailureListener {
+                offer(Resource.Failure(it))
+            }
+        awaitClose {
+
+        }
+    }
+
 
     fun listenToBookings(duration: Pair<Date, Date>, checkEndTime: Boolean = true) = callbackFlow {
         val addSnapshotListener = bookingRef

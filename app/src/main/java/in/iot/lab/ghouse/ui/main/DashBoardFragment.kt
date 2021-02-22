@@ -13,6 +13,7 @@ import `in`.iot.lab.ghouse.models.Room
 import `in`.iot.lab.ghouse.ui.main.adapters.BookingItemAdapter
 import `in`.iot.lab.ghouse.ui.main.adapters.GenericAdapter
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
@@ -79,14 +80,14 @@ class DashBoardFragment : Fragment() {
                 }
             }
         }
-        mainViewModel.loadPayments().observe(viewLifecycleOwner){
-            when(it){
-                Resource.Loading->{
+        mainViewModel.loadPayments().observe(viewLifecycleOwner) {
+            when (it) {
+                Resource.Loading -> {
                     dashboard_progress.isVisible = true
                 }
                 is Resource.Success -> {
                     dashboard_progress.isVisible = false
-                    paymentAdapter.submitList(it.value.map { PaymentItem(it.room!!,it.payment!!) })
+                    paymentAdapter.submitList(it.value.map { PaymentItem(it.room!!, it.payment!!) })
                 }
                 is Resource.Failure -> {
                     dashboard_progress.isVisible = false
@@ -99,18 +100,23 @@ class DashBoardFragment : Fragment() {
         add_room_cardview.setOnClickListener {
             showAddRoom()
         }
-
+        search_phone_number.setOnClickListener {
+            showSearchNumber()
+        }
 
     }
 
 
-    private fun showSearchNumber(){
+    private fun showSearchNumber() {
         MaterialDialog(requireActivity(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             customView(R.layout.search_number, scrollable = true, horizontalPadding = true)
             title(text = "Search by Phone Number")
             positiveButton(text = "Search") {
                 val view = it.getCustomView()
-                val phoneNumber = view.phone_number_edittext.text
+                val phoneNumber = view.phone_number_edittext.text.toString()
+                mainViewModel.searchNumber = phoneNumber
+                findNavController().navigate(R.id.action_fragment_utils_to_searchFragment)
+
             }
             negativeButton(text = "Cancel") { }
         }
@@ -138,6 +144,7 @@ class DashBoardFragment : Fragment() {
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
+
                     }
                 }
             }

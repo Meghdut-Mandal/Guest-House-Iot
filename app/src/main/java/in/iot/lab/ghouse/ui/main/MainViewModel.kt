@@ -30,6 +30,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var bookingLiveData: LiveData<PagedList<RvItem>>? = null
     val selectedBooking = MutableLiveData<Booking>()
     val requestLiveData = MutableLiveData<Request>()
+    var searchNumber: String = ""
 
     init {
         requestLiveData.postValue(Request.ReloadViewModel)
@@ -49,6 +50,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun loadSearchBookings() = liveData(Dispatchers.IO) {
+        emit(Resource.Loading)
+        bookingDb.getBookings(searchNumber).collect{
+            emit(it)
+        }
+    }
+
     fun loadBooking(
         lifecycleOwner: LifecycleOwner,
         startTime: Long = -1
@@ -64,7 +72,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun loadActiveRooms() = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
         val yesterday = (Date().removeTime().time - hour).toDate()
-        val tomorrow = (yesterday.time + day + hour*2).toDate()
+        val tomorrow = (yesterday.time + day + hour * 2).toDate()
         bookingDb.listenToBookingsItems(yesterday to tomorrow, false).collect {
             emit(it)
         }

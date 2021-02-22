@@ -97,7 +97,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
+        android:id="@+id/search_phone_number"
         android:layout_width="0dp"
         android:layout_height="75dp"
         app:cardCornerRadius="15dp"
