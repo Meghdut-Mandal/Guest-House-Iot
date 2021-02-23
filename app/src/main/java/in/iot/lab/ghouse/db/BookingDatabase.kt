@@ -181,5 +181,14 @@ class BookingDatabase {
         }
     }
 
+    fun removeBooking(bookingId: String) {
+        bookingRef
+            .whereEqualTo("id", bookingId).addSnapshotListener { value, error ->
+                value?.documents?.forEach {
+                    it.reference.delete()
+                }
+            }
+    }
+
 
 }

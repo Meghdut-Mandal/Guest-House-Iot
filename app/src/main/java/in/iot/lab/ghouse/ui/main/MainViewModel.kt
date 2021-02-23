@@ -94,5 +94,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteBooking(bookingId: String) {
+        if (bookingId.isEmpty())
+            return
+        bookingDb.removeBooking(bookingId)
+    }
+
 
 }

@@ -7,7 +7,7 @@
     tools:context=".ui.main.BookingDetailsFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/booking_deatils_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -35,7 +35,7 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/room_ic"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/booking_deatils_toolbar" />
 
     <TextView
         android:id="@+id/room_name"
@@ -203,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="+91 876542334"
+                tools:text="+91 876542334"
                 app:layout_constraintBottom_toBottomOf="@+id/phoneIcon"
                 app:layout_constraintStart_toEndOf="@+id/phoneIcon"
                 app:layout_constraintTop_toTopOf="@+id/phoneIcon" />
