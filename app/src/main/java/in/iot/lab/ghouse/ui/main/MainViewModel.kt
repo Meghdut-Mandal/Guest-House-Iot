@@ -71,9 +71,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadActiveRooms() = liveData(Dispatchers.IO) {
         emit(Resource.Loading)
-        val yesterday = (Date().removeTime().time - hour).toDate()
-        val tomorrow = (Date().removeTime().time + hour).toDate()
-        bookingDb.listenToBookingsItems(yesterday to tomorrow, false).collect {
+        val today = Date().removeTime()
+
+        bookingDb.listenToActiveRooms(today).collect {
             emit(it)
         }
     }

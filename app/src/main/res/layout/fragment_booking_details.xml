@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.BookingDetailsFragment">
@@ -197,8 +196,7 @@
                 android:src="@drawable/phone_ico"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline21"
-                app:layout_constraintTop_toBottomOf="@+id/textView15"
-                android:onClick="callCustomer"/>
+                app:layout_constraintTop_toBottomOf="@+id/textView15"/>
 
             <TextView
                 android:id="@+id/phoneNumber"
@@ -276,7 +274,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

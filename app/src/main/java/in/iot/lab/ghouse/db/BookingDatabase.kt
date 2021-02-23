@@ -1,5 +1,6 @@
 package `in`.iot.lab.ghouse.db
 
+import `in`.iot.lab.ghouse.Util.day
 import `in`.iot.lab.ghouse.models.Booking
 import `in`.iot.lab.ghouse.models.Room
 import `in`.iot.lab.ghouse.models.RvItem
@@ -88,12 +89,13 @@ class BookingDatabase {
         }
     }
 
-    fun getBookings(phoneNumber:String) = callbackFlow {
+    fun getBookings(phoneNumber: String) = callbackFlow {
         bookingRef
-            .whereEqualTo("customer.phoneNumber",phoneNumber)
+            .whereEqualTo("customer.phoneNumber", phoneNumber)
             .get().addOnSuccessListener {
                 val sortedBy =
-                    it.toObjects(Booking::class.java).map { RvItem.BookingItem(it, it.startTime) }.sortedBy { it.id }
+                    it.toObjects(Booking::class.java).map { RvItem.BookingItem(it, it.startTime) }
+                        .sortedBy { it.id }
                 offer(Resource.Success(sortedBy))
             }.addOnFailureListener {
                 offer(Resource.Failure(it))
@@ -124,27 +126,28 @@ class BookingDatabase {
         }
     }
 
-    fun listenToBookingsItems(duration: Pair<Date, Date>, checkEndTime: Boolean = true) = callbackFlow {
-        val addSnapshotListener = bookingRef
-            .whereGreaterThanOrEqualTo("startTime", duration.first.time)
-            .whereLessThanOrEqualTo("startTime", duration.second.time)
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    offer(Resource.Failure(error))
-                } else {
-                    val mainList = value?.toObjects(Booking::class.java) ?: listOf()
-                    val list =
-                        if (checkEndTime) mainList.filter { it.endTime <= duration.second.time } else mainList
-                    val items =
-                        list.map { RvItem.BookingItem(it, it.startTime) }.sortedBy { it.id }
-                    offer(Resource.Success(items))
+    fun listenToBookingsItems(duration: Pair<Date, Date>, checkEndTime: Boolean = true) =
+        callbackFlow {
+            val addSnapshotListener = bookingRef
+                .whereGreaterThanOrEqualTo("startTime", duration.first.time)
+                .whereLessThanOrEqualTo("startTime", duration.second.time)
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        offer(Resource.Failure(error))
+                    } else {
+                        val mainList = value?.toObjects(Booking::class.java) ?: listOf()
+                        val list =
+                            if (checkEndTime) mainList.filter { it.endTime <= duration.second.time } else mainList
+                        val items =
+                            list.map { RvItem.BookingItem(it, it.startTime) }.sortedBy { it.id }
+                        offer(Resource.Success(items))
+                    }
                 }
-            }
 
-        awaitClose {
-            addSnapshotListener.remove()
+            awaitClose {
+                addSnapshotListener.remove()
+            }
         }
-    }
 
     fun saveRoom(room: Room) = callbackFlow {
         roomsRef.add(room).addOnSuccessListener {
@@ -157,6 +160,26 @@ class BookingDatabase {
         }
     }
 
+    fun listenToActiveRooms(today: Date) = callbackFlow {
+        val addSnapshotListener = bookingRef
+            .whereLessThanOrEqualTo("startTime", today.time)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    offer(Resource.Failure(error))
+                } else {
+                    val mainList = value?.toObjects(Booking::class.java) ?: listOf()
+                    val list =
+                        mainList.filter { it.endTime >= (today.time + day) }
+                    val items =
+                        list.map { RvItem.BookingItem(it, it.startTime) }.sortedBy { it.id }
+                    offer(Resource.Success(items))
+                }
+            }
+
+        awaitClose {
+            addSnapshotListener.remove()
+        }
+    }
 
 
 }
